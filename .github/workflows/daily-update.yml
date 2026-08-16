@@ -1,0 +1,39 @@
+name: 每日更新籌碼集中度排行
+
+on:
+  schedule:
+    # UTC 07:10 = 台灣時間 15:10（台股收盤後），週一到週五執行
+    - cron: '10 7 * * 1-5'
+  workflow_dispatch: {}   # 允許在 GitHub 網頁上手動點一下馬上執行
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 取得程式碼
+        uses: actions/checkout@v4
+
+      - name: 設定 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安裝套件
+        run: pip install -r requirements.txt
+
+      - name: 執行爬蟲
+        run: python scraper.py
+
+      - name: 產生網頁
+        run: python generate_html.py
+
+      - name: 提交並推送更新
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/latest.json data/history.csv docs/index.html
+          git diff --quiet --cached || git commit -m "自動更新資料 $(date '+%Y-%m-%d %H:%M')"
+          git push
