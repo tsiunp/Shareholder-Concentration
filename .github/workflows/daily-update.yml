@@ -34,6 +34,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/latest.json data/history.csv docs/index.html
+          git add data/latest.json data/history.csv docs/
           git diff --quiet --cached || git commit -m "自動更新資料 $(date '+%Y-%m-%d %H:%M')"
           git push
