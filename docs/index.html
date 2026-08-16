@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台股籌碼集中度排行</title>
+<style>
+  body {
+    font-family: -apple-system, "Microsoft JhengHei", sans-serif;
+    background: #f5f6fa;
+    margin: 0;
+    padding: 20px;
+    color: #222;
+  }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .meta { color: #777; font-size: 13px; margin-bottom: 16px; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 8px 18px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .tab-btn.active { background: #2d5be3; color: #fff; border-color: #2d5be3; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    font-size: 14px;
+  }
+  th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #eee; }
+  th:nth-child(1), td:nth-child(1),
+  th:nth-child(2), td:nth-child(2),
+  th:nth-child(3), td:nth-child(3) { text-align: left; }
+  th { background: #fafafa; font-weight: 600; color: #555; }
+  tr:hover { background: #f0f4ff; }
+  .positive { color: #d23; }
+  .negative { color: #197; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+</style>
+</head>
+<body>
+
+<h1>台股籌碼集中度排行（前20名）</h1>
+<div class="meta">
+  資料來源更新時間：2026/8/15
+  23:02　|　爬蟲擷取時間：2026-08-16 19:03:09
+</div>
+
+<div class="tabs">
+  <button class="tab-btn" id="btn-1" onclick="showTab('1')">1日排行</button>
+<button class="tab-btn" id="btn-5" onclick="showTab('5')">5日排行</button>
+<button class="tab-btn" id="btn-10" onclick="showTab('10')">10日排行</button>
+<button class="tab-btn" id="btn-20" onclick="showTab('20')">20日排行</button>
+</div>
+
+
+<div id="panel-1" class="panel">
+  <table>
+    <thead>
+      <tr>
+        <th>排名</th><th>代碼</th><th>名稱</th>
+        <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
+        <th>10日均量</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+  <td>1</td>
+  <td>2323</td>
+  <td>中環</td>
+  <td class="positive">48.2</td>
+  <td class="positive">18.5</td>
+  <td class="positive">15.3</td>
+  <td class="positive">1.9</td>
+  <td class="positive">2.8</td>
+  <td class="positive">1.7</td>
+  <td>5640.9</td>
+</tr><tr>
+  <td>2</td>
+  <td>2615</td>
+  <td>萬海</td>
+  <td class="positive">44.6</td>
+  <td class="positive">35.7</td>
+  <td class="positive">29.1</td>
+  <td class="positive">26.4</td>
+  <td class="positive">14.4</td>
+  <td class="positive">7.2</td>
+  <td>10638.9</td>
+</tr><tr>
+  <td>3</td>
+  <td>1102</td>
+  <td>亞泥</td>
+  <td class="positive">44.4</td>
+  <td class="negative">-10.5</td>
+  <td class="negative">-7.3</td>
+  <td class="negative">-4</td>
+  <td class="negative">-1.9</td>
+  <td class="negative">-3.4</td>
+  <td>10631</td>
+</tr><tr>
+  <td>4</td>
+  <td>6214</td>
+  <td>精誠</td>
+  <td class="positive">43.8</td>
+  <td class="positive">13.3</td>
+  <td class="negative">-1.1</td>
+  <td class="positive">9.1</td>
+  <td class="positive">5.7</td>
+  <td class="positive">4.7</td>
+  <td>2307.8</td>
+</tr><tr>
+  <td>5</td>
+  <td>3706</td>
+  <td>神達</td>
+  <td class="positive">42.4</td>
+  <td class="positive">26.5</td>
+  <td class="positive">27.9</td>
+  <td class="positive">18.7</td>
+  <td class="positive">5.2</td>
+  <td class="positive">3.9</td>
+  <td>13999.5</td>
+</tr><tr>
+  <td>6</td>
+  <td>2603</td>
+  <td>長榮</td>
+  <td class="positive">42.3</td>
+  <td class="positive">33.5</td>
+  <td class="positive">28.4</td>
+  <td class="positive">26.6</td>
+  <td class="positive">6.8</td>
+  <td class="positive">7.1</td>
+  <td>8520.1</td>
+</tr><tr>
+  <td>7</td>
+  <td>9933</td>
+  <td>中鼎</td>
+  <td class="positive">42</td>
+  <td class="positive">33.9</td>
+  <td class="positive">25.9</td>
+  <td class="positive">10.4</td>
+  <td class="positive">9.8</td>
+  <td class="positive">9</td>
+  <td>3131.9</td>
+</tr><tr>
+  <td>8</td>
+  <td>2851</td>
+  <td>中再保</td>
+  <td class="positive">41.9</td>
+  <td class="positive">25.8</td>
+  <td class="positive">12.9</td>
+  <td class="negative">-0.6</td>
+  <td class="negative">-0.3</td>
+  <td class="positive">4.8</td>
+  <td>1439.2</td>
+</tr><tr>
+  <td>9</td>
+  <td>1612</td>
+  <td>宏泰</td>
+  <td class="positive">41</td>
+  <td class="positive">13.7</td>
+  <td class="positive">5.7</td>
+  <td class="negative">-0.8</td>
+  <td class="negative">-7.8</td>
+  <td class="negative">-5.7</td>
+  <td>1381.9</td>
+</tr><tr>
+  <td>10</td>
+  <td>6213</td>
+  <td>聯茂</td>
+  <td class="positive">36.1</td>
+  <td class="positive">21.8</td>
+  <td class="positive">12.8</td>
+  <td class="positive">3.8</td>
+  <td class="positive">2.7</td>
+  <td class="positive">1.8</td>
+  <td>19358</td>
+</tr><tr>
+  <td>11</td>
+  <td>3498</td>
+  <td>陽程</td>
+  <td class="positive">35.7</td>
+  <td class="positive">22.3</td>
+  <td class="positive">14.5</td>
+  <td class="positive">10.5</td>
+  <td class="negative">-0.4</td>
+  <td class="positive">1.8</td>
+  <td>2244.7</td>
+</tr><tr>
+  <td>12</td>
+  <td>2474</td>
+  <td>可成</td>
+  <td class="positive">35.4</td>
+  <td class="positive">27.9</td>
+  <td class="positive">16.8</td>
+  <td class="positive">7.1</td>
+  <td class="negative">-8.9</td>
+  <td class="negative">-7.1</td>
+  <td>3595.3</td>
+</tr><tr>
+  <td>13</td>
+  <td>2887</td>
+  <td>台新新光金</td>
+  <td class="positive">34.3</td>
+  <td class="positive">19.5</td>
+  <td class="positive">12.9</td>
+  <td class="positive">8.6</td>
+  <td class="positive">11.3</td>
+  <td class="positive">5.3</td>
+  <td>49583.2</td>
+</tr><tr>
+  <td>14</td>
+  <td>2867</td>
+  <td>三商壽</td>
+  <td class="positive">33.9</td>
+  <td class="positive">22.1</td>
+  <td class="positive">19.3</td>
+  <td class="positive">20.3</td>
+  <td class="positive">22.2</td>
+  <td class="positive">23.7</td>
+  <td>14169.3</td>
+</tr><tr>
+  <td>15</td>
+  <td>9945</td>
+  <td>潤泰新</td>
+  <td class="positive">32.9</td>
+  <td class="positive">24.1</td>
+  <td class="positive">15.9</td>
+  <td class="positive">18.1</td>
+  <td class="positive">5.3</td>
+  <td class="positive">1</td>
+  <td>8514.7</td>
+</tr><tr>
+  <td>16</td>
+  <td>3037</td>
+  <td>欣興</td>
+  <td class="positive">32.1</td>
+  <td class="positive">28.4</td>
+  <td class="positive">13.1</td>
+  <td class="positive">6.4</td>
+  <td class="positive">0.8</td>
+  <td class="positive">0.1</td>
+  <td>20788.4</td>
+</tr><tr>
+  <td>17</td>
+  <td>2392</td>
+  <td>正崴</td>
+  <td class="positive">31.4</td>
+  <td class="positive">27.3</td>
+  <td class="positive">26</td>
+  <td class="positive">15.2</td>
+  <td class="positive">7.1</td>
+  <td class="positive">4.9</td>
+  <td>3535.7</td>
+</tr><tr>
+  <td>18</td>
+  <td>2357</td>
+  <td>華碩</td>
+  <td class="positive">31.2</td>
+  <td class="positive">29</td>
+  <td class="positive">19.1</td>
+  <td class="positive">19.4</td>
+  <td class="positive">7.1</td>
+  <td class="positive">4.4</td>
+  <td>5088.7</td>
+</tr><tr>
+  <td>19</td>
+  <td>1319</td>
+  <td>東陽</td>
+  <td class="positive">31.1</td>
+  <td class="positive">26.5</td>
+  <td class="positive">18.6</td>
+  <td class="positive">3.8</td>
+  <td class="negative">-5.5</td>
+  <td class="negative">-7.6</td>
+  <td>3586.8</td>
+</tr><tr>
+  <td>20</td>
+  <td>3029</td>
+  <td>零壹</td>
+  <td class="positive">30.8</td>
+  <td class="positive">18.8</td>
+  <td class="positive">8.2</td>
+  <td class="positive">14</td>
+  <td class="positive">5.3</td>
+  <td class="positive">0.8</td>
+  <td>1644.4</td>
+</tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="panel-5" class="panel">
+  <table>
+    <thead>
+      <tr>
+        <th>排名</th><th>代碼</th><th>名稱</th>
+        <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
+        <th>10日均量</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+  <td>1</td>
+  <td>1513</td>
+  <td>中興電</td>
+  <td class="positive">10.7</td>
+  <td class="positive">42.6</td>
+  <td class="positive">36.3</td>
+  <td class="positive">18.2</td>
+  <td class="positive">2.8</td>
+  <td class="negative">-2.1</td>
+  <td>4115.7</td>
+</tr><tr>
+  <td>2</td>
+  <td>2615</td>
+  <td>萬海</td>
+  <td class="positive">44.6</td>
+  <td class="positive">35.7</td>
+  <td class="positive">29.1</td>
+  <td class="positive">26.4</td>
+  <td class="positive">14.4</td>
+  <td class="positive">7.2</td>
+  <td>10638.9</td>
+</tr><tr>
+  <td>3</td>
+  <td>2520</td>
+  <td>冠德</td>
+  <td class="positive">4.2</td>
+  <td class="positive">34.4</td>
+  <td class="positive">20.9</td>
+  <td class="positive">18</td>
+  <td class="positive">15.2</td>
+  <td class="positive">12.3</td>
+  <td>1328.4</td>
+</tr><tr>
+  <td>4</td>
+  <td>1904</td>
+  <td>正隆</td>
+  <td class="positive">6.2</td>
+  <td class="positive">34.4</td>
+  <td class="positive">29.8</td>
+  <td class="positive">21.4</td>
+  <td class="positive">13.1</td>
+  <td class="positive">8.5</td>
+  <td>3693.9</td>
+</tr><tr>
+  <td>5</td>
+  <td>9933</td>
+  <td>中鼎</td>
+  <td class="positive">42</td>
+  <td class="positive">33.9</td>
+  <td class="positive">25.9</td>
+  <td class="positive">10.4</td>
+  <td class="positive">9.8</td>
+  <td class="positive">9</td>
+  <td>3131.9</td>
+</tr><tr>
+  <td>6</td>
+  <td>2603</td>
+  <td>長榮</td>
+  <td class="positive">42.3</td>
+  <td class="positive">33.5</td>
+  <td class="positive">28.4</td>
+  <td class="positive">26.6</td>
+  <td class="positive">6.8</td>
+  <td class="positive">7.1</td>
+  <td>8520.1</td>
+</tr><tr>
+  <td>7</td>
+  <td>1605</td>
+  <td>華新</td>
+  <td class="positive">4</td>
+  <td class="positive">31.8</td>
+  <td class="positive">30.5</td>
+  <td class="positive">17</td>
+  <td class="positive">6.3</td>
+  <td class="positive">4</td>
+  <td>43401.5</td>
+</tr><tr>
+  <td>8</td>
+  <td>6112</td>
+  <td>邁達特</td>
+  <td class="positive">29.7</td>
+  <td class="positive">31.2</td>
+  <td class="positive">27.2</td>
+  <td class="positive">20.9</td>
+  <td class="positive">1.4</td>
+  <td class="positive">0.6</td>
+  <td>878.1</td>
+</tr><tr>
+  <td>9</td>
+  <td>2542</td>
+  <td>興富發</td>
+  <td class="positive">19.4</td>
+  <td class="positive">30.4</td>
+  <td class="positive">20.1</td>
+  <td class="positive">19</td>
+  <td class="positive">8.7</td>
+  <td class="positive">8</td>
+  <td>6669.3</td>
+</tr><tr>
+  <td>10</td>
+  <td>2357</td>
+  <td>華碩</td>
+  <td class="positive">31.2</td>
+  <td class="positive">29</td>
+  <td class="positive">19.1</td>
+  <td class="positive">19.4</td>
+  <td class="positive">7.1</td>
+  <td class="positive">4.4</td>
+  <td>5088.7</td>
+</tr><tr>
+  <td>11</td>
+  <td>3037</td>
+  <td>欣興</td>
+  <td class="positive">32.1</td>
+  <td class="positive">28.4</td>
+  <td class="positive">13.1</td>
+  <td class="positive">6.4</td>
+  <td class="positive">0.8</td>
+  <td class="positive">0.1</td>
+  <td>20788.4</td>
+</tr><tr>
+  <td>12</td>
+  <td>2474</td>
+  <td>可成</td>
+  <td class="positive">35.4</td>
+  <td class="positive">27.9</td>
+  <td class="positive">16.8</td>
+  <td class="positive">7.1</td>
+  <td class="negative">-8.9</td>
+  <td class="negative">-7.1</td>
+  <td>3595.3</td>
+</tr><tr>
+  <td>13</td>
+  <td>6244</td>
+  <td>茂迪</td>
+  <td class="negative">-0.5</td>
+  <td class="positive">27.7</td>
+  <td class="positive">12.5</td>
+  <td class="positive">4</td>
+  <td class="positive">0.5</td>
+  <td class="positive">0.8</td>
+  <td>2757.5</td>
+</tr><tr>
+  <td>14</td>
+  <td>2328</td>
+  <td>廣宇</td>
+  <td class="positive">3</td>
+  <td class="positive">27.7</td>
+  <td class="positive">8.2</td>
+  <td class="positive">2.5</td>
+  <td class="positive">0.3</td>
+  <td class="positive">1.1</td>
+  <td>2573.4</td>
+</tr><tr>
+  <td>15</td>
+  <td>2108</td>
+  <td>南帝</td>
+  <td class="negative">-34.2</td>
+  <td class="positive">27.5</td>
+  <td class="positive">24.1</td>
+  <td class="positive">13.9</td>
+  <td class="positive">4.2</td>
+  <td class="positive">1.7</td>
+  <td>1385.9</td>
+</tr><tr>
+  <td>16</td>
+  <td>1440</td>
+  <td>南紡</td>
+  <td class="positive">25.1</td>
+  <td class="positive">27.5</td>
+  <td class="positive">21.8</td>
+  <td class="positive">7.4</td>
+  <td class="positive">0.7</td>
+  <td class="negative">-1</td>
+  <td>2279.2</td>
+</tr><tr>
+  <td>17</td>
+  <td>3356</td>
+  <td>奇偶</td>
+  <td class="positive">20.7</td>
+  <td class="positive">27.3</td>
+  <td class="positive">18.5</td>
+  <td class="positive">16.2</td>
+  <td class="positive">8.6</td>
+  <td class="positive">6.5</td>
+  <td>814.5</td>
+</tr><tr>
+  <td>18</td>
+  <td>2392</td>
+  <td>正崴</td>
+  <td class="positive">31.4</td>
+  <td class="positive">27.3</td>
+  <td class="positive">26</td>
+  <td class="positive">15.2</td>
+  <td class="positive">7.1</td>
+  <td class="positive">4.9</td>
+  <td>3535.7</td>
+</tr><tr>
+  <td>19</td>
+  <td>6277</td>
+  <td>宏正</td>
+  <td class="positive">4.5</td>
+  <td class="positive">26.9</td>
+  <td class="positive">19.9</td>
+  <td class="positive">8.7</td>
+  <td class="positive">9.8</td>
+  <td class="positive">9.1</td>
+  <td>582.5</td>
+</tr><tr>
+  <td>20</td>
+  <td>1319</td>
+  <td>東陽</td>
+  <td class="positive">31.1</td>
+  <td class="positive">26.5</td>
+  <td class="positive">18.6</td>
+  <td class="positive">3.8</td>
+  <td class="negative">-5.5</td>
+  <td class="negative">-7.6</td>
+  <td>3586.8</td>
+</tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="panel-10" class="panel">
+  <table>
+    <thead>
+      <tr>
+        <th>排名</th><th>代碼</th><th>名稱</th>
+        <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
+        <th>10日均量</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+  <td>1</td>
+  <td>1513</td>
+  <td>中興電</td>
+  <td class="positive">10.7</td>
+  <td class="positive">42.6</td>
+  <td class="positive">36.3</td>
+  <td class="positive">18.2</td>
+  <td class="positive">2.8</td>
+  <td class="negative">-2.1</td>
+  <td>4115.7</td>
+</tr><tr>
+  <td>2</td>
+  <td>1605</td>
+  <td>華新</td>
+  <td class="positive">4</td>
+  <td class="positive">31.8</td>
+  <td class="positive">30.5</td>
+  <td class="positive">17</td>
+  <td class="positive">6.3</td>
+  <td class="positive">4</td>
+  <td>43401.5</td>
+</tr><tr>
+  <td>3</td>
+  <td>1904</td>
+  <td>正隆</td>
+  <td class="positive">6.2</td>
+  <td class="positive">34.4</td>
+  <td class="positive">29.8</td>
+  <td class="positive">21.4</td>
+  <td class="positive">13.1</td>
+  <td class="positive">8.5</td>
+  <td>3693.9</td>
+</tr><tr>
+  <td>4</td>
+  <td>2615</td>
+  <td>萬海</td>
+  <td class="positive">44.6</td>
+  <td class="positive">35.7</td>
+  <td class="positive">29.1</td>
+  <td class="positive">26.4</td>
+  <td class="positive">14.4</td>
+  <td class="positive">7.2</td>
+  <td>10638.9</td>
+</tr><tr>
+  <td>5</td>
+  <td>2603</td>
+  <td>長榮</td>
+  <td class="positive">42.3</td>
+  <td class="positive">33.5</td>
+  <td class="positive">28.4</td>
+  <td class="positive">26.6</td>
+  <td class="positive">6.8</td>
+  <td class="positive">7.1</td>
+  <td>8520.1</td>
+</tr><tr>
+  <td>6</td>
+  <td>2034</td>
+  <td>允強</td>
+  <td class="negative">-9.4</td>
+  <td class="positive">21.5</td>
+  <td class="positive">28.1</td>
+  <td class="positive">3.9</td>
+  <td class="positive">9.4</td>
+  <td class="positive">3.5</td>
+  <td>1709.4</td>
+</tr><tr>
+  <td>7</td>
+  <td>3706</td>
+  <td>神達</td>
+  <td class="positive">42.4</td>
+  <td class="positive">26.5</td>
+  <td class="positive">27.9</td>
+  <td class="positive">18.7</td>
+  <td class="positive">5.2</td>
+  <td class="positive">3.9</td>
+  <td>13999.5</td>
+</tr><tr>
+  <td>8</td>
+  <td>6112</td>
+  <td>邁達特</td>
+  <td class="positive">29.7</td>
+  <td class="positive">31.2</td>
+  <td class="positive">27.2</td>
+  <td class="positive">20.9</td>
+  <td class="positive">1.4</td>
+  <td class="positive">0.6</td>
+  <td>878.1</td>
+</tr><tr>
+  <td>9</td>
+  <td>2392</td>
+  <td>正崴</td>
+  <td class="positive">31.4</td>
+  <td class="positive">27.3</td>
+  <td class="positive">26</td>
+  <td class="positive">15.2</td>
+  <td class="positive">7.1</td>
+  <td class="positive">4.9</td>
+  <td>3535.7</td>
+</tr><tr>
+  <td>10</td>
+  <td>9933</td>
+  <td>中鼎</td>
+  <td class="positive">42</td>
+  <td class="positive">33.9</td>
+  <td class="positive">25.9</td>
+  <td class="positive">10.4</td>
+  <td class="positive">9.8</td>
+  <td class="positive">9</td>
+  <td>3131.9</td>
+</tr><tr>
+  <td>11</td>
+  <td>2108</td>
+  <td>南帝</td>
+  <td class="negative">-34.2</td>
+  <td class="positive">27.5</td>
+  <td class="positive">24.1</td>
+  <td class="positive">13.9</td>
+  <td class="positive">4.2</td>
+  <td class="positive">1.7</td>
+  <td>1385.9</td>
+</tr><tr>
+  <td>12</td>
+  <td>4938</td>
+  <td>和碩</td>
+  <td class="negative">-0.1</td>
+  <td class="positive">22</td>
+  <td class="positive">23.3</td>
+  <td class="positive">19</td>
+  <td class="positive">5.1</td>
+  <td class="positive">5</td>
+  <td>17754.5</td>
+</tr><tr>
+  <td>13</td>
+  <td>3046</td>
+  <td>建��</td>
+  <td class="positive">12.3</td>
+  <td class="positive">25</td>
+  <td class="positive">23.3</td>
+  <td class="positive">15.8</td>
+  <td class="positive">3.5</td>
+  <td class="positive">3.3</td>
+  <td>758.6</td>
+</tr><tr>
+  <td>14</td>
+  <td>3003</td>
+  <td>健和興</td>
+  <td class="negative">-15.5</td>
+  <td class="positive">23</td>
+  <td class="positive">23.2</td>
+  <td class="positive">17.5</td>
+  <td class="positive">4.9</td>
+  <td class="positive">3.6</td>
+  <td>1662.3</td>
+</tr><tr>
+  <td>15</td>
+  <td>1504</td>
+  <td>東元</td>
+  <td class="positive">21.2</td>
+  <td class="positive">26.1</td>
+  <td class="positive">22.6</td>
+  <td class="positive">8.3</td>
+  <td class="negative">-6</td>
+  <td class="negative">-5.3</td>
+  <td>8121.6</td>
+</tr><tr>
+  <td>16</td>
+  <td>1536</td>
+  <td>和大</td>
+  <td class="negative">-4.8</td>
+  <td class="positive">8</td>
+  <td class="positive">22.6</td>
+  <td class="positive">6.2</td>
+  <td class="positive">0.6</td>
+  <td class="negative">-2.7</td>
+  <td>1735.8</td>
+</tr><tr>
+  <td>17</td>
+  <td>6279</td>
+  <td>胡連</td>
+  <td class="positive">2.6</td>
+  <td class="positive">11.6</td>
+  <td class="positive">22.5</td>
+  <td class="positive">20.7</td>
+  <td class="positive">6.1</td>
+  <td class="negative">-1</td>
+  <td>1278.2</td>
+</tr><tr>
+  <td>18</td>
+  <td>1440</td>
+  <td>南紡</td>
+  <td class="positive">25.1</td>
+  <td class="positive">27.5</td>
+  <td class="positive">21.8</td>
+  <td class="positive">7.4</td>
+  <td class="positive">0.7</td>
+  <td class="negative">-1</td>
+  <td>2279.2</td>
+</tr><tr>
+  <td>19</td>
+  <td>5351</td>
+  <td>鈺創</td>
+  <td class="positive">10</td>
+  <td class="positive">19.5</td>
+  <td class="positive">21.2</td>
+  <td class="positive">8</td>
+  <td class="positive">3.1</td>
+  <td class="positive">1.7</td>
+  <td>24690.3</td>
+</tr><tr>
+  <td>20</td>
+  <td>3489</td>
+  <td>森寶</td>
+  <td class="positive">22.6</td>
+  <td class="positive">25.1</td>
+  <td class="positive">21.2</td>
+  <td class="positive">18.3</td>
+  <td class="positive">0.7</td>
+  <td class="negative">-0.8</td>
+  <td>798.4</td>
+</tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="panel-20" class="panel">
+  <table>
+    <thead>
+      <tr>
+        <th>排名</th><th>代碼</th><th>名稱</th>
+        <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
+        <th>10日均量</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+  <td>1</td>
+  <td>2603</td>
+  <td>長榮</td>
+  <td class="positive">42.3</td>
+  <td class="positive">33.5</td>
+  <td class="positive">28.4</td>
+  <td class="positive">26.6</td>
+  <td class="positive">6.8</td>
+  <td class="positive">7.1</td>
+  <td>8520.1</td>
+</tr><tr>
+  <td>2</td>
+  <td>2615</td>
+  <td>萬海</td>
+  <td class="positive">44.6</td>
+  <td class="positive">35.7</td>
+  <td class="positive">29.1</td>
+  <td class="positive">26.4</td>
+  <td class="positive">14.4</td>
+  <td class="positive">7.2</td>
+  <td>10638.9</td>
+</tr><tr>
+  <td>3</td>
+  <td>2002</td>
+  <td>中鋼</td>
+  <td class="negative">-41.4</td>
+  <td class="positive">17.9</td>
+  <td class="positive">15.9</td>
+  <td class="positive">24.1</td>
+  <td class="positive">2.5</td>
+  <td class="negative">-2.7</td>
+  <td>47537.5</td>
+</tr><tr>
+  <td>4</td>
+  <td>3293</td>
+  <td>鈊象</td>
+  <td class="negative">-19.7</td>
+  <td class="positive">1.7</td>
+  <td class="positive">14.9</td>
+  <td class="positive">23.6</td>
+  <td class="positive">9.5</td>
+  <td class="positive">8.5</td>
+  <td>1667.9</td>
+</tr><tr>
+  <td>5</td>
+  <td>1904</td>
+  <td>正隆</td>
+  <td class="positive">6.2</td>
+  <td class="positive">34.4</td>
+  <td class="positive">29.8</td>
+  <td class="positive">21.4</td>
+  <td class="positive">13.1</td>
+  <td class="positive">8.5</td>
+  <td>3693.9</td>
+</tr><tr>
+  <td>6</td>
+  <td>1907</td>
+  <td>永豐餘</td>
+  <td class="negative">-16</td>
+  <td class="positive">6.4</td>
+  <td class="positive">19.4</td>
+  <td class="positive">21.3</td>
+  <td class="positive">13.6</td>
+  <td class="positive">7.6</td>
+  <td>2128.1</td>
+</tr><tr>
+  <td>7</td>
+  <td>2727</td>
+  <td>王品</td>
+  <td class="negative">-13.6</td>
+  <td class="positive">5.1</td>
+  <td class="positive">8.8</td>
+  <td class="positive">21.1</td>
+  <td class="positive">10.5</td>
+  <td class="positive">12</td>
+  <td>624.8</td>
+</tr><tr>
+  <td>8</td>
+  <td>6112</td>
+  <td>邁達特</td>
+  <td class="positive">29.7</td>
+  <td class="positive">31.2</td>
+  <td class="positive">27.2</td>
+  <td class="positive">20.9</td>
+  <td class="positive">1.4</td>
+  <td class="positive">0.6</td>
+  <td>878.1</td>
+</tr><tr>
+  <td>9</td>
+  <td>6279</td>
+  <td>胡連</td>
+  <td class="positive">2.6</td>
+  <td class="positive">11.6</td>
+  <td class="positive">22.5</td>
+  <td class="positive">20.7</td>
+  <td class="positive">6.1</td>
+  <td class="negative">-1</td>
+  <td>1278.2</td>
+</tr><tr>
+  <td>10</td>
+  <td>2867</td>
+  <td>三商壽</td>
+  <td class="positive">33.9</td>
+  <td class="positive">22.1</td>
+  <td class="positive">19.3</td>
+  <td class="positive">20.3</td>
+  <td class="positive">22.2</td>
+  <td class="positive">23.7</td>
+  <td>14169.3</td>
+</tr><tr>
+  <td>11</td>
+  <td>3141</td>
+  <td>晶宏</td>
+  <td class="negative">-20.1</td>
+  <td class="positive">2.3</td>
+  <td class="positive">20.6</td>
+  <td class="positive">19.4</td>
+  <td class="positive">1.6</td>
+  <td class="positive">1</td>
+  <td>1275.4</td>
+</tr><tr>
+  <td>12</td>
+  <td>2357</td>
+  <td>華碩</td>
+  <td class="positive">31.2</td>
+  <td class="positive">29</td>
+  <td class="positive">19.1</td>
+  <td class="positive">19.4</td>
+  <td class="positive">7.1</td>
+  <td class="positive">4.4</td>
+  <td>5088.7</td>
+</tr><tr>
+  <td>13</td>
+  <td>4938</td>
+  <td>和碩</td>
+  <td class="negative">-0.1</td>
+  <td class="positive">22</td>
+  <td class="positive">23.3</td>
+  <td class="positive">19</td>
+  <td class="positive">5.1</td>
+  <td class="positive">5</td>
+  <td>17754.5</td>
+</tr><tr>
+  <td>14</td>
+  <td>2542</td>
+  <td>興富發</td>
+  <td class="positive">19.4</td>
+  <td class="positive">30.4</td>
+  <td class="positive">20.1</td>
+  <td class="positive">19</td>
+  <td class="positive">8.7</td>
+  <td class="positive">8</td>
+  <td>6669.3</td>
+</tr><tr>
+  <td>15</td>
+  <td>3706</td>
+  <td>神達</td>
+  <td class="positive">42.4</td>
+  <td class="positive">26.5</td>
+  <td class="positive">27.9</td>
+  <td class="positive">18.7</td>
+  <td class="positive">5.2</td>
+  <td class="positive">3.9</td>
+  <td>13999.5</td>
+</tr><tr>
+  <td>16</td>
+  <td>3489</td>
+  <td>森寶</td>
+  <td class="positive">22.6</td>
+  <td class="positive">25.1</td>
+  <td class="positive">21.2</td>
+  <td class="positive">18.3</td>
+  <td class="positive">0.7</td>
+  <td class="negative">-0.8</td>
+  <td>798.4</td>
+</tr><tr>
+  <td>17</td>
+  <td>1513</td>
+  <td>中興電</td>
+  <td class="positive">10.7</td>
+  <td class="positive">42.6</td>
+  <td class="positive">36.3</td>
+  <td class="positive">18.2</td>
+  <td class="positive">2.8</td>
+  <td class="negative">-2.1</td>
+  <td>4115.7</td>
+</tr><tr>
+  <td>18</td>
+  <td>9945</td>
+  <td>潤泰新</td>
+  <td class="positive">32.9</td>
+  <td class="positive">24.1</td>
+  <td class="positive">15.9</td>
+  <td class="positive">18.1</td>
+  <td class="positive">5.3</td>
+  <td class="positive">1</td>
+  <td>8514.7</td>
+</tr><tr>
+  <td>19</td>
+  <td>2520</td>
+  <td>冠德</td>
+  <td class="positive">4.2</td>
+  <td class="positive">34.4</td>
+  <td class="positive">20.9</td>
+  <td class="positive">18</td>
+  <td class="positive">15.2</td>
+  <td class="positive">12.3</td>
+  <td>1328.4</td>
+</tr><tr>
+  <td>20</td>
+  <td>8415</td>
+  <td>大國鋼</td>
+  <td class="">0</td>
+  <td class="positive">7.6</td>
+  <td class="positive">7.8</td>
+  <td class="positive">17.9</td>
+  <td class="positive">8.9</td>
+  <td class="positive">5</td>
+  <td>737.7</td>
+</tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+function showTab(period) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('btn-' + period).classList.add('active');
+  document.getElementById('panel-' + period).classList.add('active');
+}
+showTab('1');
+</script>
+
+</body>
+</html>
