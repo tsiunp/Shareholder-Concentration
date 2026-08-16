@@ -52,6 +52,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .negative {{ color: #197; }}
   .panel {{ display: none; }}
   .panel.active {{ display: block; }}
+  .download-bar {{ margin-top: 10px; }}
+  .download-btn {{
+    display: inline-block;
+    padding: 8px 16px;
+    background: #197b3e;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 13px;
+  }}
+  .download-btn:hover {{ background: #145c2e; }}
 </style>
 </head>
 <body>
@@ -102,6 +113,14 @@ def cls(v):
         return ""
 
 
+def build_watchlist_text(rows, market_map):
+    """把該分頁的股票代碼組成 TradingView 可匯入的觀察清單格式"""
+    # 優先查對照表判斷是上市(TWSE)還是上櫃(TPEX)；
+    # 如果對照表裡查不到（極少數情況），預設用 TWSE。
+    symbols = [f"{market_map.get(r['code'], 'TWSE')}:{r['code']}" for r in rows]
+    return ",".join(symbols)
+
+
 def build_panel(period, rows):
     trs = []
     for r in rows:
@@ -126,6 +145,11 @@ def build_panel(period, rows):
       {''.join(trs)}
     </tbody>
   </table>
+  <div class="download-bar">
+    <a class="download-btn" href="watchlist_{period}.txt" download>
+      ⬇ 下載 TradingView 觀察清單（{PERIOD_LABELS[period]}排行 .txt）
+    </a>
+  </div>
 </div>"""
     return table
 
@@ -133,6 +157,13 @@ def build_panel(period, rows):
 def main():
     with open("data/latest.json", "r", encoding="utf-8") as f:
         data = json.load(f)
+
+    # 讀取上市/上櫃對照表（scraper.py 產生），找不到就當作空字典（全部 fallback 用 TWSE）
+    try:
+        with open("data/market_map.json", "r", encoding="utf-8") as f:
+            market_map = json.load(f)
+    except FileNotFoundError:
+        market_map = {}
 
     tab_buttons = "\n".join(
         f'<button class="tab-btn" id="btn-{p}" onclick="showTab(\'{p}\')">{PERIOD_LABELS[p]}排行</button>'
@@ -155,7 +186,13 @@ def main():
     with open("docs/index.html", "w", encoding="utf-8") as f:
         f.write(html)
 
-    print("已產生 docs/index.html")
+    # 為每個分頁產生 TradingView 觀察清單 txt 檔
+    for p in PERIOD_LABELS:
+        watchlist_text = build_watchlist_text(data["data"].get(p, []), market_map)
+        with open(f"docs/watchlist_{p}.txt", "w", encoding="utf-8") as f:
+            f.write(watchlist_text)
+
+    print("已產生 docs/index.html 與各分頁 watchlist txt 檔")
 
 
 if __name__ == "__main__":
