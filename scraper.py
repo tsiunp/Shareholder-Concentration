@@ -36,7 +36,7 @@ COLUMNS = [
     "avg_vol_10d",
 ]
 
-TOP_N = 20  # 使用者只需要前20名
+TOP_N = 30  # 使用者只需要前30名
 
 # 台灣證交所公開的「上市/上櫃證券清單」，用來判斷每檔股票該用 TWSE 還是 TPEX
 MARKET_LIST_URLS = {
@@ -137,8 +137,11 @@ def build_futures_map():
 def build_price_map():
     """
     抓取上市（TWSE）+ 上櫃（TPEX）官方每日收盤價，回傳 {股票代碼: 收盤價字串}
+    同時回傳資料實際對應的日期字串，方便驗證是否真的是「今天」的收盤價
+    （避免因為排程時間太早，證交所資料還沒更新，而抓到前一個交易日的舊資料）
     """
     price_map = {}
+    price_dates = {}
 
     # 上市：證交所 OpenAPI
     try:
@@ -147,11 +150,18 @@ def build_price_map():
             headers=HEADERS, timeout=20,
         )
         resp.raise_for_status()
-        for item in resp.json():
+        data = resp.json()
+        for item in data:
             code = (item.get("Code") or "").strip()
             close = (item.get("ClosingPrice") or "").strip()
             if code:
                 price_map[code] = close
+        if data:
+            # Date 欄位是民國年格式，例如 "1150815" 代表 2026/08/15
+            raw_date = (data[0].get("Date") or "").strip()
+            if len(raw_date) >= 7:
+                roc_year = int(raw_date[:3]) + 1911
+                price_dates["TWSE"] = f"{roc_year}/{raw_date[3:5]}/{raw_date[5:7]}"
     except Exception as e:
         print(f"警告：抓取上市收盤價失敗（{e}），略過")
 
@@ -162,15 +172,18 @@ def build_price_map():
             headers=HEADERS, timeout=20,
         )
         resp.raise_for_status()
-        for item in resp.json():
+        data = resp.json()
+        for item in data:
             code = (item.get("SecuritiesCompanyCode") or "").strip()
             close = (item.get("Close") or "").strip()
             if code:
                 price_map[code] = close
+        if data:
+            price_dates["TPEX"] = (data[0].get("Date") or "").strip()
     except Exception as e:
         print(f"警告：抓取上櫃收盤價失敗（{e}），略過")
 
-    return price_map
+    return price_map, price_dates
 
 
 def fetch_table(period: str):
@@ -264,10 +277,16 @@ def main():
 
     # 1d) 抓取上市+上櫃官方收盤價，存成 data/price_map.json
     print("抓取收盤價中...")
-    price_map = build_price_map()
+    price_map, price_dates = build_price_map()
     with open("data/price_map.json", "w", encoding="utf-8") as f:
         json.dump(price_map, f, ensure_ascii=False)
     print(f"收盤價筆數：{len(price_map)}")
+    print(f"收盤價資料日期 → TWSE: {price_dates.get('TWSE', '未知')}　"
+          f"TPEX: {price_dates.get('TPEX', '未知')}")
+    today_str = datetime.now().strftime("%Y/%m/%d")
+    if price_dates.get("TWSE") and price_dates["TWSE"] != today_str:
+        print(f"⚠️ 注意：TWSE 收盤價日期（{price_dates['TWSE']}）跟今天（{today_str}）不同，"
+              f"可能是證交所資料還沒更新，或今天非交易日")
 
     # 2) 附加寫入歷史紀錄 CSV（方便之後想做趨勢分析）
     history_path = "data/history.csv"
