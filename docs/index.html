@@ -41,6 +41,17 @@
   .negative { color: #197; }
   .panel { display: none; }
   .panel.active { display: block; }
+  .download-bar { margin-top: 10px; }
+  .download-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #197b3e;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  .download-btn:hover { background: #145c2e; }
 </style>
 </head>
 <body>
@@ -48,7 +59,7 @@
 <h1>台股籌碼集中度排行（前20名）</h1>
 <div class="meta">
   資料來源更新時間：2026/8/15
-  23:02　|　爬蟲擷取時間：2026-08-16 19:03:09
+  23:02　|　爬蟲擷取時間：2026-08-17 00:07:00
 </div>
 
 <div class="tabs">
@@ -292,6 +303,11 @@
 </tr>
     </tbody>
   </table>
+  <div class="download-bar">
+    <a class="download-btn" href="watchlist_1.txt" download>
+      ⬇ 下載 TradingView 觀察清單（1日排行 .txt）
+    </a>
+  </div>
 </div>
 
 <div id="panel-5" class="panel">
@@ -527,6 +543,11 @@
 </tr>
     </tbody>
   </table>
+  <div class="download-bar">
+    <a class="download-btn" href="watchlist_5.txt" download>
+      ⬇ 下載 TradingView 觀察清單（5日排行 .txt）
+    </a>
+  </div>
 </div>
 
 <div id="panel-10" class="panel">
@@ -762,6 +783,11 @@
 </tr>
     </tbody>
   </table>
+  <div class="download-bar">
+    <a class="download-btn" href="watchlist_10.txt" download>
+      ⬇ 下載 TradingView 觀察清單（10日排行 .txt）
+    </a>
+  </div>
 </div>
 
 <div id="panel-20" class="panel">
@@ -997,6 +1023,11 @@
 </tr>
     </tbody>
   </table>
+  <div class="download-bar">
+    <a class="download-btn" href="watchlist_20.txt" download>
+      ⬇ 下載 TradingView 觀察清單（20日排行 .txt）
+    </a>
+  </div>
 </div>
 
 <script>
