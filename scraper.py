@@ -84,6 +84,95 @@ def build_market_map():
     return market_map
 
 
+# 期交所「股票期貨/股票選擇權 交易標的」清單網址
+FUTURES_LIST_URL = "https://www.taifex.com.tw/cht/2/stockLists"
+
+
+def build_futures_map():
+    """
+    抓取期交所股票期貨標的清單，回傳：
+    {股票代碼: {"futures": True/False, "mini_futures": True/False}}
+    判斷方式：清單裡每個商品有「標準型證券股數」欄位，
+    2,000（一般股票）或 10,000（ETF）代表一般期貨；
+    100（一般股票）或 1,000（ETF）代表小型期貨。
+    """
+    futures_map = {}
+    try:
+        resp = requests.get(FUTURES_LIST_URL, headers=HEADERS, timeout=20)
+        resp.raise_for_status()
+        resp.encoding = "utf-8"
+        soup = BeautifulSoup(resp.text, "html.parser")
+
+        # 頁面上有多個 table，用欄位關鍵字找到真正的標的清單表格
+        target_table = None
+        for t in soup.find_all("table"):
+            header_text = t.get_text()
+            if "證券代號" in header_text and "標準型" in header_text:
+                target_table = t
+                break
+
+        if target_table is None:
+            print("警告：找不到期交所股票期貨標的表格，略過")
+            return futures_map
+
+        for tr in target_table.find_all("tr"):
+            tds = tr.find_all("td")
+            if len(tds) < 12:
+                continue
+            code = tds[2].get_text(strip=True)
+            if not code or not code[0].isdigit():
+                continue  # 跳過標題列、合計列
+            unit = tds[11].get_text(strip=True).replace(",", "")
+            entry = futures_map.setdefault(code, {"futures": False, "mini_futures": False})
+            if unit in ("2000", "10000"):
+                entry["futures"] = True
+            elif unit in ("100", "1000"):
+                entry["mini_futures"] = True
+    except requests.RequestException as e:
+        print(f"警告：抓取股票期貨標的清單失敗（{e}），略過")
+
+    return futures_map
+
+
+def build_price_map():
+    """
+    抓取上市（TWSE）+ 上櫃（TPEX）官方每日收盤價，回傳 {股票代碼: 收盤價字串}
+    """
+    price_map = {}
+
+    # 上市：證交所 OpenAPI
+    try:
+        resp = requests.get(
+            "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL",
+            headers=HEADERS, timeout=20,
+        )
+        resp.raise_for_status()
+        for item in resp.json():
+            code = (item.get("Code") or "").strip()
+            close = (item.get("ClosingPrice") or "").strip()
+            if code:
+                price_map[code] = close
+    except Exception as e:
+        print(f"警告：抓取上市收盤價失敗（{e}），略過")
+
+    # 上櫃：櫃買中心 OpenAPI
+    try:
+        resp = requests.get(
+            "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes",
+            headers=HEADERS, timeout=20,
+        )
+        resp.raise_for_status()
+        for item in resp.json():
+            code = (item.get("SecuritiesCompanyCode") or "").strip()
+            close = (item.get("Close") or "").strip()
+            if code:
+                price_map[code] = close
+    except Exception as e:
+        print(f"警告：抓取上櫃收盤價失敗（{e}），略過")
+
+    return price_map
+
+
 def fetch_table(period: str):
     """抓取單一分頁（1/5/10/20日）的排行表格"""
     url = BASE_URL + PAGES[period]
@@ -163,6 +252,22 @@ def main():
     print(f"對照表筆數：TWSE={twse_count}, TPEX={tpex_count}, 總計={len(market_map)}")
     if tpex_count == 0:
         print("警告：TPEX（上櫃）清單筆數為 0，可能抓取失敗，該分類股票會 fallback 用 TWSE")
+
+    # 1c) 抓取股票期貨/小型股票期貨標的清單，存成 data/futures_map.json
+    print("抓取股票期貨標的清單中...")
+    futures_map = build_futures_map()
+    with open("data/futures_map.json", "w", encoding="utf-8") as f:
+        json.dump(futures_map, f, ensure_ascii=False)
+    futures_count = sum(1 for v in futures_map.values() if v["futures"])
+    mini_count = sum(1 for v in futures_map.values() if v["mini_futures"])
+    print(f"股票期貨標的筆數：一般={futures_count}, 小型={mini_count}")
+
+    # 1d) 抓取上市+上櫃官方收盤價，存成 data/price_map.json
+    print("抓取收盤價中...")
+    price_map = build_price_map()
+    with open("data/price_map.json", "w", encoding="utf-8") as f:
+        json.dump(price_map, f, ensure_ascii=False)
+    print(f"收盤價筆數：{len(price_map)}")
 
     # 2) 附加寫入歷史紀錄 CSV（方便之後想做趨勢分析）
     history_path = "data/history.csv"
