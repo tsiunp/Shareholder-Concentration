@@ -41,6 +41,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     background: #fff;
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     font-size: 14px;
+    table-layout: fixed;
   }}
   th, td {{ padding: 8px 10px; text-align: right; border-bottom: 1px solid #eee; }}
   th:nth-child(1), td:nth-child(1),
@@ -70,7 +71,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
 
-<h1>每日籌碼集中度排行（前20名）</h1>
+<h1>每日籌碼集中度排行（TOP20）</h1>
 <div class="meta">
   資料來源更新時間：{source_updated_at}　|　爬蟲擷取時間：{fetched_at}
 </div>
@@ -151,6 +152,21 @@ def build_panel(period, rows, futures_map, price_map):
     table = f"""
 <div id="panel-{period}" class="panel">
   <table>
+   <colgroup>
+      <col style="width:5%">
+      <col style="width:7%">
+      <col style="width:11%">
+      <col style="width:8%">
+      <col style="width:7%">
+      <col style="width:8%">
+      <col style="width:7%">
+      <col style="width:7%">
+      <col style="width:7%">
+      <col style="width:7%">
+      <col style="width:7%">
+      <col style="width:7%">
+      <col style="width:12%">
+    </colgroup>
     <thead>
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
