@@ -154,7 +154,7 @@ def build_panel(period, rows, futures_map, price_map):
     <thead>
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
-        <th>收盤價</th><th class="center">有期貨</th><th class="center">有小期貨</th>
+        <th>收盤價</th><th class="center">期貨</th><th class="center">小期貨</th>
         <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
         <th>10日均量</th>
       </tr>
