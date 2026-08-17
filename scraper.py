@@ -137,31 +137,57 @@ def build_futures_map():
 def build_price_map():
     """
     抓取上市（TWSE）+ 上櫃（TPEX）官方每日收盤價，回傳 {股票代碼: 收盤價字串}
-    同時回傳資料實際對應的日期字串，方便驗證是否真的是「今天」的收盤價
-    （避免因為排程時間太早，證交所資料還沒更新，而抓到前一個交易日的舊資料）
+    同時回傳資料實際對應的日期字串，方便驗證是否真的是「今天」的收盤價。
+ 
+    注意：上市部分原本用 openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL，
+    但實測發現這個端點固定會延遲一個交易日（不管多晚打都一樣），
+    改用證交所「每日收盤行情」端點 www.twse.com.tw/exchangeReport/MI_INDEX，
+    這個才會在收盤後即時更新成當天的資料。
     """
     price_map = {}
     price_dates = {}
+    today_compact = datetime.now().strftime("%Y%m%d")  # 例如 20260817
 
     # 上市：證交所 OpenAPI
     try:
         resp = requests.get(
-            "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL",
+            "https://www.twse.com.tw/exchangeReport/MI_INDEX",
+            params={"response": "json", "date": today_compact, "type": "ALLBUT0999"},
             headers=HEADERS, timeout=20,
         )
         resp.raise_for_status()
-        data = resp.json()
-        for item in data:
-            code = (item.get("Code") or "").strip()
-            close = (item.get("ClosingPrice") or "").strip()
-            if code:
-                price_map[code] = close
-        if data:
-            # Date 欄位是民國年格式，例如 "1150815" 代表 2026/08/15
-            raw_date = (data[0].get("Date") or "").strip()
-            if len(raw_date) >= 7:
-                roc_year = int(raw_date[:3]) + 1911
-                price_dates["TWSE"] = f"{roc_year}/{raw_date[3:5]}/{raw_date[5:7]}"
+        body = resp.json()
+ 
+        if body.get("stat") == "OK":
+            # 這份報表裡有好幾張表格（指數、個股行情等），
+            # 用欄位名稱找出「證券代號、收盤價」在哪一張表，不寫死索引避免格式變動就壞掉
+            fields_list, rows = [], []
+            for key in body:
+                if key.startswith("fields"):
+                    idx = key[len("fields"):]
+                    f = body.get(f"fields{idx}") or []
+                    d = body.get(f"data{idx}") or []
+                    if "證券代號" in f and "收盤價" in f:
+                        fields_list, rows = f, d
+                        break
+ 
+            if fields_list and rows:
+                code_idx = fields_list.index("證券代號")
+                close_idx = fields_list.index("收盤價")
+                for row in rows:
+                    if len(row) > max(code_idx, close_idx):
+                        code = row[code_idx].strip()
+                        close = row[close_idx].strip()
+                        if code:
+                            price_map[code] = close
+                price_dates["TWSE"] = (
+                    f"{today_compact[:4]}/{today_compact[4:6]}/{today_compact[6:]}"
+                )
+            else:
+                print("警告：TWSE 每日收盤行情回傳格式不如預期，找不到收盤價欄位，略過")
+        else:
+            print(f"警告：TWSE 今天（{today_compact}）尚無資料，"
+                  f"可能是非交易日或資料還沒更新（stat={body.get('stat')}）")
     except Exception as e:
         print(f"警告：抓取上市收盤價失敗（{e}），略過")
 
