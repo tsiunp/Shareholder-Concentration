@@ -160,20 +160,25 @@ def build_price_map():
  
         if body.get("stat") == "OK":
             # 這份報表裡有好幾張表格（指數、個股行情等），
-            # 用欄位名稱找出「證券代號、收盤價」在哪一張表，不寫死索引避免格式變動就壞掉
+            # 用欄位名稱找出「證券代號、收盤價」在哪一張表。
+            # 用「包含」而不是「完全相等」比對，避免欄位名稱前後多了空白字元就比對不到。
             fields_list, rows = [], []
+            candidate_field_keys = []
             for key in body:
                 if key.startswith("fields"):
                     idx = key[len("fields"):]
                     f = body.get(f"fields{idx}") or []
                     d = body.get(f"data{idx}") or []
-                    if "證券代號" in f and "收盤價" in f:
+                    candidate_field_keys.append((key, f))
+                    has_code_col = any("證券代號" in str(c) for c in f)
+                    has_close_col = any("收盤價" in str(c) for c in f)
+                    if has_code_col and has_close_col:
                         fields_list, rows = f, d
                         break
  
             if fields_list and rows:
-                code_idx = fields_list.index("證券代號")
-                close_idx = fields_list.index("收盤價")
+                code_idx = next(i for i, c in enumerate(fields_list) if "證券代號" in str(c))
+                close_idx = next(i for i, c in enumerate(fields_list) if "收盤價" in str(c))
                 for row in rows:
                     if len(row) > max(code_idx, close_idx):
                         code = row[code_idx].strip()
@@ -185,12 +190,15 @@ def build_price_map():
                 )
             else:
                 print("警告：TWSE 每日收盤行情回傳格式不如預期，找不到收盤價欄位，略過")
+                # 除錯用：印出實際抓到的表格欄位名稱，方便之後比對是不是證交所又改格式了
+                for key, f in candidate_field_keys[:5]:
+                    print(f"  除錯 - {key}: {f}")
         else:
             print(f"警告：TWSE 今天（{today_compact}）尚無資料，"
                   f"可能是非交易日或資料還沒更新（stat={body.get('stat')}）")
     except Exception as e:
         print(f"警告：抓取上市收盤價失敗（{e}），略過")
-
+ 
     # 上櫃：櫃買中心 OpenAPI
     try:
         resp = requests.get(
