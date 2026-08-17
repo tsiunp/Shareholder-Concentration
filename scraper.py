@@ -38,6 +38,47 @@ COLUMNS = [
 
 TOP_N = 20  # 使用者只需要前20名
 
+# 台灣證交所公開的「上市/上櫃證券清單」，用來判斷每檔股票該用 TWSE 還是 TPEX
+MARKET_LIST_URLS = {
+    "TWSE": "https://isin.twse.com.tw/isin/C_public.jsp?strMode=2",  # 上市
+    "TPEX": "https://isin.twse.com.tw/isin/C_public.jsp?strMode=4",  # 上櫃
+}
+
+
+def build_market_map():
+    """
+    抓取證交所公開清單，回傳 {股票代碼: "TWSE" 或 "TPEX"} 的對照表。
+    如果證交所網站一時抓不到，回傳空字典，之後會 fallback 用 TWSE 當預設值。
+    """
+    market_map = {}
+    for market, url in MARKET_LIST_URLS.items():
+        try:
+            resp = requests.get(url, headers=HEADERS, timeout=20)
+            resp.raise_for_status()
+            resp.encoding = "big5"
+            soup = BeautifulSoup(resp.text, "html.parser")
+            table = soup.find("table")
+            if table is None:
+                print(f"警告：{market} 清單頁面找不到表格，略過")
+                continue
+
+            for tr in table.find_all("tr"):
+                tds = tr.find_all("td")
+                if not tds:
+                    continue
+                first_cell = tds[0].get_text()
+                # 資料列格式是「代碼\u3000名稱」（中間是全形空白），
+                # 分類標題列（如「股票」、「ETF」）沒有這個全形空白，會被跳過
+                if "\u3000" not in first_cell:
+                    continue
+                code = first_cell.split("\u3000", 1)[0].strip()
+                if code.isdigit():
+                    market_map[code] = market
+        except requests.RequestException as e:
+            print(f"警告：抓取 {market} 清單失敗（{e}），略過")
+
+    return market_map
+
 
 def fetch_table(period: str):
     """抓取單一分頁（1/5/10/20日）的排行表格"""
@@ -105,6 +146,13 @@ def main():
     # 1) 存最新一份完整資料（給網頁讀取用）
     with open("data/latest.json", "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
+
+    # 1b) 抓取上市/上櫃對照表，存成 data/market_map.json（給產生 TradingView 清單用）
+    print("抓取上市/上櫃對照表中...")
+    market_map = build_market_map()
+    with open("data/market_map.json", "w", encoding="utf-8") as f:
+        json.dump(market_map, f, ensure_ascii=False)
+    print(f"對照表筆數：{len(market_map)}")
 
     # 2) 附加寫入歷史紀錄 CSV（方便之後想做趨勢分析）
     history_path = "data/history.csv"
