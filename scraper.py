@@ -57,7 +57,11 @@ def build_market_map():
             resp.raise_for_status()
             resp.encoding = "big5"
             soup = BeautifulSoup(resp.text, "html.parser")
-            table = soup.find("table")
+            # 這個頁面上有多個 table（含版面用的），真正的股票清單表格是 class="h4"，
+            # 一定要精準指定，否則會抓到錯的表格（例如版頭），導致清單是空的
+            table = soup.find("table", {"class": "h4"})
+            if table is None:
+                table = soup.find("table")  # 備用：萬一網站改版拿掉 class，退而求其次
             if table is None:
                 print(f"警告：{market} 清單頁面找不到表格，略過")
                 continue
@@ -152,7 +156,13 @@ def main():
     market_map = build_market_map()
     with open("data/market_map.json", "w", encoding="utf-8") as f:
         json.dump(market_map, f, ensure_ascii=False)
-    print(f"對照表筆數：{len(market_map)}")
+
+    # 印出各市場筆數，方便從執行紀錄檢查有沒有抓漏（正常應該兩邊都有上千筆）
+    twse_count = sum(1 for v in market_map.values() if v == "TWSE")
+    tpex_count = sum(1 for v in market_map.values() if v == "TPEX")
+    print(f"對照表筆數：TWSE={twse_count}, TPEX={tpex_count}, 總計={len(market_map)}")
+    if tpex_count == 0:
+        print("警告：TPEX（上櫃）清單筆數為 0，可能抓取失敗，該分類股票會 fallback 用 TWSE")
 
     # 2) 附加寫入歷史紀錄 CSV（方便之後想做趨勢分析）
     history_path = "data/history.csv"
