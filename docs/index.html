@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TWSE_TPEX籌碼集中度排行</title>
+<title>台股籌碼集中度排行</title>
 <style>
   body {
     font-family: -apple-system, "Microsoft JhengHei", sans-serif;
@@ -35,6 +35,9 @@
   th:nth-child(1), td:nth-child(1),
   th:nth-child(2), td:nth-child(2),
   th:nth-child(3), td:nth-child(3) { text-align: left; }
+  td.center, th.center { text-align: center; }
+  .yes-mark { color: #197b3e; font-weight: bold; }
+  .no-mark { color: #bbb; }
   th { background: #fafafa; font-weight: 600; color: #555; }
   tr:hover { background: #f0f4ff; }
   .positive { color: #d23; }
@@ -56,10 +59,10 @@
 </head>
 <body>
 
-<h1>TWSE_TPEX籌碼集中度排行（前20名）</h1>
+<h1>台股籌碼集中度排行（前20名）</h1>
 <div class="meta">
   資料來源更新時間：2026/8/15
-  23:02　|　爬蟲擷取時間：2026-08-17 03:22:50
+  23:02　|　爬蟲擷取時間：2026-08-17 05:47:19
 </div>
 
 <div class="tabs">
@@ -75,6 +78,7 @@
     <thead>
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
+        <th>收盤價</th><th class="center">有期貨</th><th class="center">有小期貨</th>
         <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
         <th>10日均量</th>
       </tr>
@@ -84,6 +88,9 @@
   <td>1</td>
   <td>2323</td>
   <td>中環</td>
+  <td>11.30</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">48.2</td>
   <td class="positive">18.5</td>
   <td class="positive">15.3</td>
@@ -95,6 +102,9 @@
   <td>2</td>
   <td>2615</td>
   <td>萬海</td>
+  <td>90.60</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">44.6</td>
   <td class="positive">35.7</td>
   <td class="positive">29.1</td>
@@ -106,6 +116,9 @@
   <td>3</td>
   <td>1102</td>
   <td>亞泥</td>
+  <td>33.45</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">44.4</td>
   <td class="negative">-10.5</td>
   <td class="negative">-7.3</td>
@@ -117,6 +130,9 @@
   <td>4</td>
   <td>6214</td>
   <td>精誠</td>
+  <td>172.00</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">43.8</td>
   <td class="positive">13.3</td>
   <td class="negative">-1.1</td>
@@ -128,6 +144,9 @@
   <td>5</td>
   <td>3706</td>
   <td>神達</td>
+  <td>92.70</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">42.4</td>
   <td class="positive">26.5</td>
   <td class="positive">27.9</td>
@@ -139,6 +158,9 @@
   <td>6</td>
   <td>2603</td>
   <td>長榮</td>
+  <td>219.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">42.3</td>
   <td class="positive">33.5</td>
   <td class="positive">28.4</td>
@@ -150,6 +172,9 @@
   <td>7</td>
   <td>9933</td>
   <td>中鼎</td>
+  <td>42.90</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">42</td>
   <td class="positive">33.9</td>
   <td class="positive">25.9</td>
@@ -161,6 +186,9 @@
   <td>8</td>
   <td>2851</td>
   <td>中再保</td>
+  <td>38.75</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">41.9</td>
   <td class="positive">25.8</td>
   <td class="positive">12.9</td>
@@ -172,6 +200,9 @@
   <td>9</td>
   <td>1612</td>
   <td>宏泰</td>
+  <td>34.80</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">41</td>
   <td class="positive">13.7</td>
   <td class="positive">5.7</td>
@@ -183,6 +214,9 @@
   <td>10</td>
   <td>6213</td>
   <td>聯茂</td>
+  <td>480.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">36.1</td>
   <td class="positive">21.8</td>
   <td class="positive">12.8</td>
@@ -194,6 +228,9 @@
   <td>11</td>
   <td>3498</td>
   <td>陽程</td>
+  <td>158.00</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">35.7</td>
   <td class="positive">22.3</td>
   <td class="positive">14.5</td>
@@ -205,6 +242,9 @@
   <td>12</td>
   <td>2474</td>
   <td>可成</td>
+  <td>204.50</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">35.4</td>
   <td class="positive">27.9</td>
   <td class="positive">16.8</td>
@@ -216,6 +256,9 @@
   <td>13</td>
   <td>2887</td>
   <td>台新新光金</td>
+  <td>37.75</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">34.3</td>
   <td class="positive">19.5</td>
   <td class="positive">12.9</td>
@@ -227,6 +270,9 @@
   <td>14</td>
   <td>2867</td>
   <td>三商壽</td>
+  <td>9.75</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">33.9</td>
   <td class="positive">22.1</td>
   <td class="positive">19.3</td>
@@ -238,6 +284,9 @@
   <td>15</td>
   <td>9945</td>
   <td>潤泰新</td>
+  <td>29.80</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">32.9</td>
   <td class="positive">24.1</td>
   <td class="positive">15.9</td>
@@ -249,6 +298,9 @@
   <td>16</td>
   <td>3037</td>
   <td>欣興</td>
+  <td>1020.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">32.1</td>
   <td class="positive">28.4</td>
   <td class="positive">13.1</td>
@@ -260,6 +312,9 @@
   <td>17</td>
   <td>2392</td>
   <td>正崴</td>
+  <td>43.05</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">31.4</td>
   <td class="positive">27.3</td>
   <td class="positive">26</td>
@@ -271,6 +326,9 @@
   <td>18</td>
   <td>2357</td>
   <td>華碩</td>
+  <td>996.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="yes-mark">✓</span></td>
   <td class="positive">31.2</td>
   <td class="positive">29</td>
   <td class="positive">19.1</td>
@@ -282,6 +340,9 @@
   <td>19</td>
   <td>1319</td>
   <td>東陽</td>
+  <td>83.90</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">31.1</td>
   <td class="positive">26.5</td>
   <td class="positive">18.6</td>
@@ -293,6 +354,9 @@
   <td>20</td>
   <td>3029</td>
   <td>零壹</td>
+  <td>111.50</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">30.8</td>
   <td class="positive">18.8</td>
   <td class="positive">8.2</td>
@@ -315,6 +379,7 @@
     <thead>
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
+        <th>收盤價</th><th class="center">有期貨</th><th class="center">有小期貨</th>
         <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
         <th>10日均量</th>
       </tr>
@@ -324,6 +389,9 @@
   <td>1</td>
   <td>1513</td>
   <td>中興電</td>
+  <td>170.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">10.7</td>
   <td class="positive">42.6</td>
   <td class="positive">36.3</td>
@@ -335,6 +403,9 @@
   <td>2</td>
   <td>2615</td>
   <td>萬海</td>
+  <td>90.60</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">44.6</td>
   <td class="positive">35.7</td>
   <td class="positive">29.1</td>
@@ -346,6 +417,9 @@
   <td>3</td>
   <td>2520</td>
   <td>冠德</td>
+  <td>34.85</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">4.2</td>
   <td class="positive">34.4</td>
   <td class="positive">20.9</td>
@@ -357,6 +431,9 @@
   <td>4</td>
   <td>1904</td>
   <td>正隆</td>
+  <td>24.45</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">6.2</td>
   <td class="positive">34.4</td>
   <td class="positive">29.8</td>
@@ -368,6 +445,9 @@
   <td>5</td>
   <td>9933</td>
   <td>中鼎</td>
+  <td>42.90</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">42</td>
   <td class="positive">33.9</td>
   <td class="positive">25.9</td>
@@ -379,6 +459,9 @@
   <td>6</td>
   <td>2603</td>
   <td>長榮</td>
+  <td>219.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">42.3</td>
   <td class="positive">33.5</td>
   <td class="positive">28.4</td>
@@ -390,6 +473,9 @@
   <td>7</td>
   <td>1605</td>
   <td>華新</td>
+  <td>39.05</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">4</td>
   <td class="positive">31.8</td>
   <td class="positive">30.5</td>
@@ -401,6 +487,9 @@
   <td>8</td>
   <td>6112</td>
   <td>邁達特</td>
+  <td>46.90</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">29.7</td>
   <td class="positive">31.2</td>
   <td class="positive">27.2</td>
@@ -412,6 +501,9 @@
   <td>9</td>
   <td>2542</td>
   <td>興富發</td>
+  <td>46.20</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">19.4</td>
   <td class="positive">30.4</td>
   <td class="positive">20.1</td>
@@ -423,6 +515,9 @@
   <td>10</td>
   <td>2357</td>
   <td>華碩</td>
+  <td>996.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="yes-mark">✓</span></td>
   <td class="positive">31.2</td>
   <td class="positive">29</td>
   <td class="positive">19.1</td>
@@ -434,6 +529,9 @@
   <td>11</td>
   <td>3037</td>
   <td>欣興</td>
+  <td>1020.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">32.1</td>
   <td class="positive">28.4</td>
   <td class="positive">13.1</td>
@@ -445,6 +543,9 @@
   <td>12</td>
   <td>2474</td>
   <td>可成</td>
+  <td>204.50</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">35.4</td>
   <td class="positive">27.9</td>
   <td class="positive">16.8</td>
@@ -456,6 +557,9 @@
   <td>13</td>
   <td>6244</td>
   <td>茂迪</td>
+  <td>25.20</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-0.5</td>
   <td class="positive">27.7</td>
   <td class="positive">12.5</td>
@@ -467,6 +571,9 @@
   <td>14</td>
   <td>2328</td>
   <td>廣宇</td>
+  <td>45.55</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">3</td>
   <td class="positive">27.7</td>
   <td class="positive">8.2</td>
@@ -478,6 +585,9 @@
   <td>15</td>
   <td>2108</td>
   <td>南帝</td>
+  <td>28.95</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-34.2</td>
   <td class="positive">27.5</td>
   <td class="positive">24.1</td>
@@ -489,6 +599,9 @@
   <td>16</td>
   <td>1440</td>
   <td>南紡</td>
+  <td>13.55</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">25.1</td>
   <td class="positive">27.5</td>
   <td class="positive">21.8</td>
@@ -500,6 +613,9 @@
   <td>17</td>
   <td>3356</td>
   <td>奇偶</td>
+  <td>65.50</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">20.7</td>
   <td class="positive">27.3</td>
   <td class="positive">18.5</td>
@@ -511,6 +627,9 @@
   <td>18</td>
   <td>2392</td>
   <td>正崴</td>
+  <td>43.05</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">31.4</td>
   <td class="positive">27.3</td>
   <td class="positive">26</td>
@@ -522,6 +641,9 @@
   <td>19</td>
   <td>6277</td>
   <td>宏正</td>
+  <td>84.00</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">4.5</td>
   <td class="positive">26.9</td>
   <td class="positive">19.9</td>
@@ -533,6 +655,9 @@
   <td>20</td>
   <td>1319</td>
   <td>東陽</td>
+  <td>83.90</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">31.1</td>
   <td class="positive">26.5</td>
   <td class="positive">18.6</td>
@@ -555,6 +680,7 @@
     <thead>
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
+        <th>收盤價</th><th class="center">有期貨</th><th class="center">有小期貨</th>
         <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
         <th>10日均量</th>
       </tr>
@@ -564,6 +690,9 @@
   <td>1</td>
   <td>1513</td>
   <td>中興電</td>
+  <td>170.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">10.7</td>
   <td class="positive">42.6</td>
   <td class="positive">36.3</td>
@@ -575,6 +704,9 @@
   <td>2</td>
   <td>1605</td>
   <td>華新</td>
+  <td>39.05</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">4</td>
   <td class="positive">31.8</td>
   <td class="positive">30.5</td>
@@ -586,6 +718,9 @@
   <td>3</td>
   <td>1904</td>
   <td>正隆</td>
+  <td>24.45</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">6.2</td>
   <td class="positive">34.4</td>
   <td class="positive">29.8</td>
@@ -597,6 +732,9 @@
   <td>4</td>
   <td>2615</td>
   <td>萬海</td>
+  <td>90.60</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">44.6</td>
   <td class="positive">35.7</td>
   <td class="positive">29.1</td>
@@ -608,6 +746,9 @@
   <td>5</td>
   <td>2603</td>
   <td>長榮</td>
+  <td>219.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">42.3</td>
   <td class="positive">33.5</td>
   <td class="positive">28.4</td>
@@ -619,6 +760,9 @@
   <td>6</td>
   <td>2034</td>
   <td>允強</td>
+  <td>19.90</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-9.4</td>
   <td class="positive">21.5</td>
   <td class="positive">28.1</td>
@@ -630,6 +774,9 @@
   <td>7</td>
   <td>3706</td>
   <td>神達</td>
+  <td>92.70</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">42.4</td>
   <td class="positive">26.5</td>
   <td class="positive">27.9</td>
@@ -641,6 +788,9 @@
   <td>8</td>
   <td>6112</td>
   <td>邁達特</td>
+  <td>46.90</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">29.7</td>
   <td class="positive">31.2</td>
   <td class="positive">27.2</td>
@@ -652,6 +802,9 @@
   <td>9</td>
   <td>2392</td>
   <td>正崴</td>
+  <td>43.05</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">31.4</td>
   <td class="positive">27.3</td>
   <td class="positive">26</td>
@@ -663,6 +816,9 @@
   <td>10</td>
   <td>9933</td>
   <td>中鼎</td>
+  <td>42.90</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">42</td>
   <td class="positive">33.9</td>
   <td class="positive">25.9</td>
@@ -674,6 +830,9 @@
   <td>11</td>
   <td>2108</td>
   <td>南帝</td>
+  <td>28.95</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-34.2</td>
   <td class="positive">27.5</td>
   <td class="positive">24.1</td>
@@ -685,6 +844,9 @@
   <td>12</td>
   <td>4938</td>
   <td>和碩</td>
+  <td>94.80</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-0.1</td>
   <td class="positive">22</td>
   <td class="positive">23.3</td>
@@ -696,6 +858,9 @@
   <td>13</td>
   <td>3046</td>
   <td>建��</td>
+  <td>59.80</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">12.3</td>
   <td class="positive">25</td>
   <td class="positive">23.3</td>
@@ -707,6 +872,9 @@
   <td>14</td>
   <td>3003</td>
   <td>健和興</td>
+  <td>66.80</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-15.5</td>
   <td class="positive">23</td>
   <td class="positive">23.2</td>
@@ -718,6 +886,9 @@
   <td>15</td>
   <td>1504</td>
   <td>東元</td>
+  <td>70.60</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">21.2</td>
   <td class="positive">26.1</td>
   <td class="positive">22.6</td>
@@ -729,6 +900,9 @@
   <td>16</td>
   <td>1536</td>
   <td>和大</td>
+  <td>51.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-4.8</td>
   <td class="positive">8</td>
   <td class="positive">22.6</td>
@@ -740,6 +914,9 @@
   <td>17</td>
   <td>6279</td>
   <td>胡連</td>
+  <td>127.50</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">2.6</td>
   <td class="positive">11.6</td>
   <td class="positive">22.5</td>
@@ -751,6 +928,9 @@
   <td>18</td>
   <td>1440</td>
   <td>南紡</td>
+  <td>13.55</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">25.1</td>
   <td class="positive">27.5</td>
   <td class="positive">21.8</td>
@@ -762,6 +942,9 @@
   <td>19</td>
   <td>5351</td>
   <td>鈺創</td>
+  <td>133.00</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">10</td>
   <td class="positive">19.5</td>
   <td class="positive">21.2</td>
@@ -773,6 +956,9 @@
   <td>20</td>
   <td>3489</td>
   <td>森寶</td>
+  <td>26.05</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">22.6</td>
   <td class="positive">25.1</td>
   <td class="positive">21.2</td>
@@ -795,6 +981,7 @@
     <thead>
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
+        <th>收盤價</th><th class="center">有期貨</th><th class="center">有小期貨</th>
         <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
         <th>10日均量</th>
       </tr>
@@ -804,6 +991,9 @@
   <td>1</td>
   <td>2603</td>
   <td>長榮</td>
+  <td>219.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">42.3</td>
   <td class="positive">33.5</td>
   <td class="positive">28.4</td>
@@ -815,6 +1005,9 @@
   <td>2</td>
   <td>2615</td>
   <td>萬海</td>
+  <td>90.60</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">44.6</td>
   <td class="positive">35.7</td>
   <td class="positive">29.1</td>
@@ -826,6 +1019,9 @@
   <td>3</td>
   <td>2002</td>
   <td>中鋼</td>
+  <td>19.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-41.4</td>
   <td class="positive">17.9</td>
   <td class="positive">15.9</td>
@@ -837,6 +1033,9 @@
   <td>4</td>
   <td>3293</td>
   <td>鈊象</td>
+  <td>750.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="yes-mark">✓</span></td>
   <td class="negative">-19.7</td>
   <td class="positive">1.7</td>
   <td class="positive">14.9</td>
@@ -848,6 +1047,9 @@
   <td>5</td>
   <td>1904</td>
   <td>正隆</td>
+  <td>24.45</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">6.2</td>
   <td class="positive">34.4</td>
   <td class="positive">29.8</td>
@@ -859,6 +1061,9 @@
   <td>6</td>
   <td>1907</td>
   <td>永豐餘</td>
+  <td>28.95</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-16</td>
   <td class="positive">6.4</td>
   <td class="positive">19.4</td>
@@ -870,6 +1075,9 @@
   <td>7</td>
   <td>2727</td>
   <td>王品</td>
+  <td>231.00</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-13.6</td>
   <td class="positive">5.1</td>
   <td class="positive">8.8</td>
@@ -881,6 +1089,9 @@
   <td>8</td>
   <td>6112</td>
   <td>邁達特</td>
+  <td>46.90</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">29.7</td>
   <td class="positive">31.2</td>
   <td class="positive">27.2</td>
@@ -892,6 +1103,9 @@
   <td>9</td>
   <td>6279</td>
   <td>胡連</td>
+  <td>127.50</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">2.6</td>
   <td class="positive">11.6</td>
   <td class="positive">22.5</td>
@@ -903,6 +1117,9 @@
   <td>10</td>
   <td>2867</td>
   <td>三商壽</td>
+  <td>9.75</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">33.9</td>
   <td class="positive">22.1</td>
   <td class="positive">19.3</td>
@@ -914,6 +1131,9 @@
   <td>11</td>
   <td>3141</td>
   <td>晶宏</td>
+  <td>71.80</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-20.1</td>
   <td class="positive">2.3</td>
   <td class="positive">20.6</td>
@@ -925,6 +1145,9 @@
   <td>12</td>
   <td>2357</td>
   <td>華碩</td>
+  <td>996.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="yes-mark">✓</span></td>
   <td class="positive">31.2</td>
   <td class="positive">29</td>
   <td class="positive">19.1</td>
@@ -936,6 +1159,9 @@
   <td>13</td>
   <td>4938</td>
   <td>和碩</td>
+  <td>94.80</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-0.1</td>
   <td class="positive">22</td>
   <td class="positive">23.3</td>
@@ -947,6 +1173,9 @@
   <td>14</td>
   <td>2542</td>
   <td>興富發</td>
+  <td>46.20</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">19.4</td>
   <td class="positive">30.4</td>
   <td class="positive">20.1</td>
@@ -958,6 +1187,9 @@
   <td>15</td>
   <td>3706</td>
   <td>神達</td>
+  <td>92.70</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">42.4</td>
   <td class="positive">26.5</td>
   <td class="positive">27.9</td>
@@ -969,6 +1201,9 @@
   <td>16</td>
   <td>3489</td>
   <td>森寶</td>
+  <td>26.05</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">22.6</td>
   <td class="positive">25.1</td>
   <td class="positive">21.2</td>
@@ -980,6 +1215,9 @@
   <td>17</td>
   <td>1513</td>
   <td>中興電</td>
+  <td>170.00</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">10.7</td>
   <td class="positive">42.6</td>
   <td class="positive">36.3</td>
@@ -991,6 +1229,9 @@
   <td>18</td>
   <td>9945</td>
   <td>潤泰新</td>
+  <td>29.80</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">32.9</td>
   <td class="positive">24.1</td>
   <td class="positive">15.9</td>
@@ -1002,6 +1243,9 @@
   <td>19</td>
   <td>2520</td>
   <td>冠德</td>
+  <td>34.85</td>
+  <td class="center"><span class="yes-mark">✓</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">4.2</td>
   <td class="positive">34.4</td>
   <td class="positive">20.9</td>
@@ -1013,6 +1257,9 @@
   <td>20</td>
   <td>8415</td>
   <td>大國鋼</td>
+  <td>37.50</td>
+  <td class="center"><span class="no-mark">-</span></td>
+  <td class="center"><span class="no-mark">-</span></td>
   <td class="">0</td>
   <td class="positive">7.6</td>
   <td class="positive">7.8</td>
