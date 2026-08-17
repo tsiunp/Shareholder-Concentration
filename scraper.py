@@ -36,7 +36,7 @@ COLUMNS = [
     "avg_vol_10d",
 ]
 
-TOP_N = 30  # 使用者只需要前30名
+TOP_N = 20  # 使用者只需要前20名
 
 # 台灣證交所公開的「上市/上櫃證券清單」，用來判斷每檔股票該用 TWSE 還是 TPEX
 MARKET_LIST_URLS = {
