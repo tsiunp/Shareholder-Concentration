@@ -14,7 +14,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TWSE_TPEX籌碼集中度排行</title>
+<title>台股籌碼集中度排行</title>
 <style>
   body {{
     font-family: -apple-system, "Microsoft JhengHei", sans-serif;
@@ -46,6 +46,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   th:nth-child(1), td:nth-child(1),
   th:nth-child(2), td:nth-child(2),
   th:nth-child(3), td:nth-child(3) {{ text-align: left; }}
+  td.center, th.center {{ text-align: center; }}
+  .yes-mark {{ color: #197b3e; font-weight: bold; }}
+  .no-mark {{ color: #bbb; }}
   th {{ background: #fafafa; font-weight: 600; color: #555; }}
   tr:hover {{ background: #f0f4ff; }}
   .positive {{ color: #d23; }}
@@ -67,7 +70,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
 
-<h1>TWSE_TPEX籌碼集中度排行（前20名）</h1>
+<h1>台股籌碼集中度排行（前20名）</h1>
 <div class="meta">
   資料來源更新時間：{source_updated_at}　|　爬蟲擷取時間：{fetched_at}
 </div>
@@ -96,6 +99,9 @@ ROW_TEMPLATE = """<tr>
   <td>{rank}</td>
   <td>{code}</td>
   <td>{name}</td>
+  <td>{close_price}</td>
+  <td class="center">{has_futures}</td>
+  <td class="center">{has_mini_futures}</td>
   <td class="{c1}">{d1}</td>
   <td class="{c5}">{d5}</td>
   <td class="{c10}">{d10}</td>
@@ -121,11 +127,22 @@ def build_watchlist_text(rows, market_map):
     return ",".join(symbols)
 
 
-def build_panel(period, rows):
+def yes_no_mark(is_yes):
+    return '<span class="yes-mark">✓</span>' if is_yes else '<span class="no-mark">-</span>'
+
+
+def build_panel(period, rows, futures_map, price_map):
     trs = []
     for r in rows:
+        code = r["code"]
+        close_price = price_map.get(code, "-")
+        futures_info = futures_map.get(code, {"futures": False, "mini_futures": False})
+
         trs.append(ROW_TEMPLATE.format(
             rank=r["rank"], code=r["code"], name=r["name"],
+            close_price=close_price,
+            has_futures=yes_no_mark(futures_info["futures"]),
+            has_mini_futures=yes_no_mark(futures_info["mini_futures"]),
             d1=r["d1"], d5=r["d5"], d10=r["d10"], d20=r["d20"],
             d60=r["d60"], d120=r["d120"], avg_vol_10d=r["avg_vol_10d"],
             c1=cls(r["d1"]), c5=cls(r["d5"]), c10=cls(r["d10"]),
@@ -137,6 +154,7 @@ def build_panel(period, rows):
     <thead>
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
+        <th>收盤價</th><th class="center">有期貨</th><th class="center">有小期貨</th>
         <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
         <th>10日均量</th>
       </tr>
@@ -165,13 +183,26 @@ def main():
     except FileNotFoundError:
         market_map = {}
 
+    # 讀取股票期貨標的清單、收盤價（scraper.py 產生），找不到就當空字典
+    try:
+        with open("data/futures_map.json", "r", encoding="utf-8") as f:
+            futures_map = json.load(f)
+    except FileNotFoundError:
+        futures_map = {}
+
+    try:
+        with open("data/price_map.json", "r", encoding="utf-8") as f:
+            price_map = json.load(f)
+    except FileNotFoundError:
+        price_map = {}
+
     tab_buttons = "\n".join(
         f'<button class="tab-btn" id="btn-{p}" onclick="showTab(\'{p}\')">{PERIOD_LABELS[p]}排行</button>'
         for p in PERIOD_LABELS
     )
 
     panels = "\n".join(
-        build_panel(p, data["data"].get(p, [])) for p in PERIOD_LABELS
+        build_panel(p, data["data"].get(p, []), futures_map, price_map) for p in PERIOD_LABELS
     )
 
     html = HTML_TEMPLATE.format(
