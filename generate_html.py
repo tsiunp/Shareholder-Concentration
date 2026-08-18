@@ -14,7 +14,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>籌碼集中度排行</title>
+<title>TWSExTPEX_籌碼集中度排行</title>
 <style>
   body {{
     font-family: -apple-system, "Microsoft JhengHei", sans-serif;
@@ -71,7 +71,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
 
-<h1>每日籌碼集中度排行（TOP20）</h1>
+<h1>每日籌碼集中度排行（TOP30）</h1>
 <div class="meta">
   資料來源更新時間：{source_updated_at}　|　爬蟲擷取時間：{fetched_at}
 </div>
