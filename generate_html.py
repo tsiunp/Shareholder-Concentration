@@ -35,15 +35,30 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     font-size: 14px;
   }}
   .tab-btn.active {{ background: #2d5be3; color: #fff; border-color: #2d5be3; }}
-  table {{
+  /* 表格外層包一層可以橫向滑動的容器，手機螢幕太窄時可以左右滑，
+     欄位不會被硬擠壓變形、看不清楚 */
+  .table-scroll {{
     width: 100%;
-    border-collapse: collapse;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     background: #fff;
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }}
+  table {{
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
     font-size: 14px;
     table-layout: fixed;
   }}
-  th, td {{ padding: 8px 10px; text-align: right; border-bottom: 1px solid #eee; }}
+  th, td {{
+    padding: 8px 10px;
+    text-align: right;
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }}
   th:nth-child(1), td:nth-child(1),
   th:nth-child(2), td:nth-child(2),
   th:nth-child(3), td:nth-child(3) {{ text-align: left; }}
@@ -56,6 +71,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .negative {{ color: #197; }}
   .panel {{ display: none; }}
   .panel.active {{ display: block; }}
+  .scroll-hint {{
+    display: none;
+    font-size: 12px;
+    color: #999;
+    margin: 4px 0 8px;
+  }}
   .download-bar {{ margin-top: 10px; }}
   .download-btn {{
     display: inline-block;
@@ -67,11 +88,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     font-size: 13px;
   }}
   .download-btn:hover {{ background: #145c2e; }}
+
+  /* 手機/小螢幕（寬度小於600px）：縮小字體跟間距，並顯示「左右滑動可看更多」提示 */
+  @media (max-width: 600px) {{
+    body {{ padding: 12px; }}
+    h1 {{ font-size: 18px; }}
+    .meta {{ font-size: 11px; }}
+    .tab-btn {{ padding: 6px 12px; font-size: 13px; }}
+    table {{ font-size: 12px; }}
+    th, td {{ padding: 6px 8px; }}
+    .scroll-hint {{ display: block; }}
+  }}
 </style>
 </head>
 <body>
 
-<h1>每日籌碼集中度排行（TOP30）</h1>
+<h1>TWSExTPEX_籌碼集中度排行（TOP30）</h1>
 <div class="meta">
   資料來源更新時間：{source_updated_at}　|　爬蟲擷取時間：{fetched_at}
 </div>
@@ -151,8 +183,10 @@ def build_panel(period, rows, futures_map, price_map):
         ))
     table = f"""
 <div id="panel-{period}" class="panel">
+  <div class="scroll-hint">← 可左右滑動查看更多欄位 →</div>
+  <div class="table-scroll">
   <table>
-   <colgroup>
+    <colgroup>
       <col style="width:5%">
       <col style="width:7%">
       <col style="width:11%">
@@ -170,7 +204,7 @@ def build_panel(period, rows, futures_map, price_map):
     <thead>
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
-        <th>收盤價</th><th class="center">期貨</th><th class="center">小期貨</th>
+        <th>收盤價</th><th class="center">有期貨</th><th class="center">有小期貨</th>
         <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
         <th>10日均量</th>
       </tr>
@@ -179,6 +213,7 @@ def build_panel(period, rows, futures_map, price_map):
       {''.join(trs)}
     </tbody>
   </table>
+  </div>
   <div class="download-bar">
     <a class="download-btn" href="watchlist_{period}.txt" download>
       ⬇ 下載 TradingView 觀察清單（{PERIOD_LABELS[period]}排行 .txt）
