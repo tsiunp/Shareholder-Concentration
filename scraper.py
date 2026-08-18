@@ -225,22 +225,40 @@ def build_price_map():
         print(f"警告：抓取上市收盤價失敗（{e}），略過")
 
     # 上櫃：櫃買中心 OpenAPI
-    try:
-        resp = requests.get(
-            "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes",
-            headers=HEADERS, timeout=20,
-        )
-        resp.raise_for_status()
-        data = resp.json()
-        for item in data:
-            code = (item.get("SecuritiesCompanyCode") or "").strip()
-            close = (item.get("Close") or "").strip()
-            if code:
-                price_map[code] = close
-        if data:
+    tpex_success = False
+    for attempt in range(1, 3):  # 最多重試2次，應付偶發性連線失敗
+        try:
+            resp = requests.get(
+                "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes",
+                headers=HEADERS, timeout=30,
+            )
+            status = resp.status_code
+            if status != 200:
+                print(f"警告：抓取上櫃收盤價失敗，HTTP狀態碼={status}"
+                      f"（第{attempt}次嘗試），回應前100字：{resp.text[:100]!r}")
+                continue
+
+            data = resp.json()
+            if not isinstance(data, list) or len(data) == 0:
+                print(f"警告：上櫃收盤價回應是空的或格式不對（第{attempt}次嘗試），"
+                      f"型態={type(data).__name__}，長度={len(data) if hasattr(data, '__len__') else '未知'}")
+                continue
+
+            count_before = len(price_map)
+            for item in data:
+                code = (item.get("SecuritiesCompanyCode") or "").strip()
+                close = (item.get("Close") or "").strip()
+                if code:
+                    price_map[code] = close
             price_dates["TPEX"] = (data[0].get("Date") or "").strip()
-    except Exception as e:
-        print(f"警告：抓取上櫃收盤價失敗（{e}），略過")
+            print(f"上櫃收盤價成功抓取 {len(price_map) - count_before} 筆")
+            tpex_success = True
+            break
+        except Exception as e:
+            print(f"警告：抓取上櫃收盤價失敗（{type(e).__name__}: {e}），第{attempt}次嘗試")
+
+    if not tpex_success:
+        print("警告：上櫃收盤價重試後仍失敗，本次上櫃股票收盤價會顯示為「-」")
 
     return price_map, price_dates
 
