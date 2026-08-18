@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 import json
 import os
 import csv
-from datetime import datetime
+from datetime import datetime, timedelta
 
 BASE_URL = "https://www.peicheng.com.tw/asp/main/report/dream_report/"
 
@@ -146,21 +146,32 @@ def build_price_map():
     """
     price_map = {}
     price_dates = {}
-    today_compact = datetime.now().strftime("%Y%m%d")  # 例如 20260817
 
     # 上市：證交所「每日收盤行情」
+    # 如果查詢當天還沒有資料（例如還沒收盤、或剛好非交易日），
+    # 自動往前一天一天找，最多找 7 天，直到抓到最近一個有資料的交易日為止。
     try:
-        resp = requests.get(
-            "https://www.twse.com.tw/exchangeReport/MI_INDEX",
-            params={"response": "json", "date": today_compact, "type": "ALLBUT0999"},
-            headers=HEADERS, timeout=20,
-        )
-        resp.raise_for_status()
-        body = resp.json()
+        found = False
+        for days_back in range(0, 8):
+            query_date = datetime.now() - timedelta(days=days_back)
+            query_compact = query_date.strftime("%Y%m%d")
 
-        if body.get("stat") == "OK":
+            resp = requests.get(
+                "https://www.twse.com.tw/exchangeReport/MI_INDEX",
+                params={"response": "json", "date": query_compact, "type": "ALLBUT0999"},
+                headers=HEADERS, timeout=20,
+            )
+            resp.raise_for_status()
+            body = resp.json()
+
+            if body.get("stat") != "OK":
+                if days_back == 0:
+                    print(f"提示：TWSE 今天（{query_compact}）尚無資料，"
+                          f"改往前找最近一個有資料的交易日...")
+                continue
+
             # 證交所這份報表裡有好幾張表格（指數、個股行情等）。
-            # 這裡同時支援兩種可能的 JSON 結構：
+            # 同時支援兩種可能的 JSON 結構：
             #   舊版：頂層直接放 fields9 / data9 這種攤平的鍵
             #   新版：包在 body["tables"] 這個陣列裡，每個元素有自己的 fields / data
             # 用「包含」而不是「完全相等」比對欄位名稱，避免多了空白字元就比對不到。
@@ -197,16 +208,19 @@ def build_price_map():
                         if code:
                             price_map[code] = close
                 price_dates["TWSE"] = (
-                    f"{today_compact[:4]}/{today_compact[4:6]}/{today_compact[6:]}"
+                    f"{query_compact[:4]}/{query_compact[4:6]}/{query_compact[6:]}"
                 )
+                found = True
+                break
             else:
                 print("警告：TWSE 每日收盤行情回傳格式不如預期，找不到收盤價欄位，略過")
                 print(f"  除錯 - body 頂層鍵值：{list(body.keys())}")
                 for label, f in candidate_field_keys[:8]:
                     print(f"  除錯 - {label}: {f}")
-        else:
-            print(f"警告：TWSE 今天（{today_compact}）尚無資料，"
-                  f"可能是非交易日或資料還沒更新（stat={body.get('stat')}）")
+                break  # 格式問題不會因為換日期而改善，不用繼續往前找
+
+        if not found and "TWSE" not in price_dates:
+            print("警告：往前找了7天都沒有 TWSE 資料，可能是端點異常，本次略過收盤價")
     except Exception as e:
         print(f"警告：抓取上市收盤價失敗（{e}），略過")
 
