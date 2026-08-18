@@ -24,15 +24,30 @@
     font-size: 14px;
   }
   .tab-btn.active { background: #2d5be3; color: #fff; border-color: #2d5be3; }
-  table {
+  /* 表格外層包一層可以橫向滑動的容器，手機螢幕太窄時可以左右滑，
+     欄位不會被硬擠壓變形、看不清楚 */
+  .table-scroll {
     width: 100%;
-    border-collapse: collapse;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     background: #fff;
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
     font-size: 14px;
     table-layout: fixed;
   }
-  th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #eee; }
+  th, td {
+    padding: 8px 10px;
+    text-align: right;
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   th:nth-child(1), td:nth-child(1),
   th:nth-child(2), td:nth-child(2),
   th:nth-child(3), td:nth-child(3) { text-align: left; }
@@ -45,6 +60,12 @@
   .negative { color: #197; }
   .panel { display: none; }
   .panel.active { display: block; }
+  .scroll-hint {
+    display: none;
+    font-size: 12px;
+    color: #999;
+    margin: 4px 0 8px;
+  }
   .download-bar { margin-top: 10px; }
   .download-btn {
     display: inline-block;
@@ -56,14 +77,25 @@
     font-size: 13px;
   }
   .download-btn:hover { background: #145c2e; }
+
+  /* 手機/小螢幕（寬度小於600px）：縮小字體跟間距，並顯示「左右滑動可看更多」提示 */
+  @media (max-width: 600px) {
+    body { padding: 12px; }
+    h1 { font-size: 18px; }
+    .meta { font-size: 11px; }
+    .tab-btn { padding: 6px 12px; font-size: 13px; }
+    table { font-size: 12px; }
+    th, td { padding: 6px 8px; }
+    .scroll-hint { display: block; }
+  }
 </style>
 </head>
 <body>
 
-<h1>每日籌碼集中度排行（TOP30）</h1>
+<h1>TWSExTPEX_籌碼集中度排行（TOP30）</h1>
 <div class="meta">
   資料來源更新時間：2026/8/17
-  23:02　|　爬蟲擷取時間：2026-08-18 06:30:21
+  23:02　|　爬蟲擷取時間：2026-08-18 08:58:00
 </div>
 
 <div class="tabs">
@@ -75,8 +107,10 @@
 
 
 <div id="panel-1" class="panel">
+  <div class="scroll-hint">← 可左右滑動查看更多欄位 →</div>
+  <div class="table-scroll">
   <table>
-   <colgroup>
+    <colgroup>
       <col style="width:5%">
       <col style="width:7%">
       <col style="width:11%">
@@ -94,7 +128,7 @@
     <thead>
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
-        <th>收盤價</th><th class="center">期貨</th><th class="center">小期貨</th>
+        <th>收盤價</th><th class="center">有期貨</th><th class="center">有小期貨</th>
         <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
         <th>10日均量</th>
       </tr>
@@ -272,7 +306,7 @@
   <td>13</td>
   <td>3675</td>
   <td>德微</td>
-  <td>294.00</td>
+  <td>274.00</td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">35.3</td>
@@ -314,7 +348,7 @@
   <td>16</td>
   <td>6244</td>
   <td>茂迪</td>
-  <td>26.70</td>
+  <td>25.30</td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">33.7</td>
@@ -328,7 +362,7 @@
   <td>17</td>
   <td>3489</td>
   <td>森寶</td>
-  <td>26.25</td>
+  <td>23.65</td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">32.8</td>
@@ -523,6 +557,7 @@
 </tr>
     </tbody>
   </table>
+  </div>
   <div class="download-bar">
     <a class="download-btn" href="watchlist_1.txt" download>
       ⬇ 下載 TradingView 觀察清單（1日排行 .txt）
@@ -531,8 +566,10 @@
 </div>
 
 <div id="panel-5" class="panel">
+  <div class="scroll-hint">← 可左右滑動查看更多欄位 →</div>
+  <div class="table-scroll">
   <table>
-   <colgroup>
+    <colgroup>
       <col style="width:5%">
       <col style="width:7%">
       <col style="width:11%">
@@ -550,7 +587,7 @@
     <thead>
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
-        <th>收盤價</th><th class="center">期貨</th><th class="center">小期貨</th>
+        <th>收盤價</th><th class="center">有期貨</th><th class="center">有小期貨</th>
         <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
         <th>10日均量</th>
       </tr>
@@ -770,7 +807,7 @@
   <td>16</td>
   <td>6244</td>
   <td>茂迪</td>
-  <td>26.70</td>
+  <td>25.30</td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">33.7</td>
@@ -882,7 +919,7 @@
   <td>24</td>
   <td>3489</td>
   <td>森寶</td>
-  <td>26.25</td>
+  <td>23.65</td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">32.8</td>
@@ -924,7 +961,7 @@
   <td>27</td>
   <td>1815</td>
   <td>富喬</td>
-  <td>96.50</td>
+  <td>95.30</td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">29.7</td>
@@ -979,6 +1016,7 @@
 </tr>
     </tbody>
   </table>
+  </div>
   <div class="download-bar">
     <a class="download-btn" href="watchlist_5.txt" download>
       ⬇ 下載 TradingView 觀察清單（5日排行 .txt）
@@ -987,8 +1025,10 @@
 </div>
 
 <div id="panel-10" class="panel">
+  <div class="scroll-hint">← 可左右滑動查看更多欄位 →</div>
+  <div class="table-scroll">
   <table>
-   <colgroup>
+    <colgroup>
       <col style="width:5%">
       <col style="width:7%">
       <col style="width:11%">
@@ -1006,7 +1046,7 @@
     <thead>
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
-        <th>收盤價</th><th class="center">期貨</th><th class="center">小期貨</th>
+        <th>收盤價</th><th class="center">有期貨</th><th class="center">有小期貨</th>
         <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
         <th>10日均量</th>
       </tr>
@@ -1268,7 +1308,7 @@
   <td>19</td>
   <td>6279</td>
   <td>胡連</td>
-  <td>128.00</td>
+  <td>126.50</td>
   <td class="center"><span class="yes-mark">✓</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">8.9</td>
@@ -1310,7 +1350,7 @@
   <td>22</td>
   <td>3078</td>
   <td>僑威</td>
-  <td>53.20</td>
+  <td>53.00</td>
   <td class="center"><span class="yes-mark">✓</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">24.2</td>
@@ -1338,7 +1378,7 @@
   <td>24</td>
   <td>5351</td>
   <td>鈺創</td>
-  <td>135.50</td>
+  <td>122.00</td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">11.6</td>
@@ -1380,7 +1420,7 @@
   <td>27</td>
   <td>3489</td>
   <td>森寶</td>
-  <td>26.25</td>
+  <td>23.65</td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">32.8</td>
@@ -1435,6 +1475,7 @@
 </tr>
     </tbody>
   </table>
+  </div>
   <div class="download-bar">
     <a class="download-btn" href="watchlist_10.txt" download>
       ⬇ 下載 TradingView 觀察清單（10日排行 .txt）
@@ -1443,8 +1484,10 @@
 </div>
 
 <div id="panel-20" class="panel">
+  <div class="scroll-hint">← 可左右滑動查看更多欄位 →</div>
+  <div class="table-scroll">
   <table>
-   <colgroup>
+    <colgroup>
       <col style="width:5%">
       <col style="width:7%">
       <col style="width:11%">
@@ -1462,7 +1505,7 @@
     <thead>
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
-        <th>收盤價</th><th class="center">期貨</th><th class="center">小期貨</th>
+        <th>收盤價</th><th class="center">有期貨</th><th class="center">有小期貨</th>
         <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
         <th>10日均量</th>
       </tr>
@@ -1598,7 +1641,7 @@
   <td>10</td>
   <td>6279</td>
   <td>胡連</td>
-  <td>128.00</td>
+  <td>126.50</td>
   <td class="center"><span class="yes-mark">✓</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">8.9</td>
@@ -1612,7 +1655,7 @@
   <td>11</td>
   <td>3293</td>
   <td>鈊象</td>
-  <td>731.00</td>
+  <td>742.00</td>
   <td class="center"><span class="yes-mark">✓</span></td>
   <td class="center"><span class="yes-mark">✓</span></td>
   <td class="negative">-38</td>
@@ -1654,7 +1697,7 @@
   <td>14</td>
   <td>3141</td>
   <td>晶宏</td>
-  <td>73.10</td>
+  <td>69.70</td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-1.4</td>
@@ -1682,7 +1725,7 @@
   <td>16</td>
   <td>3489</td>
   <td>森寶</td>
-  <td>26.25</td>
+  <td>23.65</td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="positive">32.8</td>
@@ -1752,7 +1795,7 @@
   <td>21</td>
   <td>8415</td>
   <td>大國鋼</td>
-  <td>37.85</td>
+  <td>38.00</td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="center"><span class="no-mark">-</span></td>
   <td class="negative">-2.3</td>
@@ -1891,6 +1934,7 @@
 </tr>
     </tbody>
   </table>
+  </div>
   <div class="download-bar">
     <a class="download-btn" href="watchlist_20.txt" download>
       ⬇ 下載 TradingView 觀察清單（20日排行 .txt）
