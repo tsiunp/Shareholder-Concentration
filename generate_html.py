@@ -65,6 +65,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   td.center, th.center {{ text-align: center; }}
   .yes-mark {{ color: #197b3e; font-weight: bold; }}
   .no-mark {{ color: #bbb; }}
+  .stock-link {{
+    color: #2d5be3;
+    text-decoration: none;
+  }}
+  .stock-link:hover {{ text-decoration: underline; }}
   th {{ background: #fafafa; font-weight: 600; color: #555; }}
   tr:hover {{ background: #f0f4ff; }}
   .positive {{ color: #d23; }}
@@ -103,7 +108,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
 
-<h1>TWSExTPEX_籌碼集中度排行（TOP30）</h1>
+<h1>TWSExTPEX_籌碼集中度排行</h1>
 <div class="meta">
   資料來源更新時間：{source_updated_at}　|　爬蟲擷取時間：{fetched_at}
 </div>
@@ -131,7 +136,7 @@ showTab('1');
 ROW_TEMPLATE = """<tr>
   <td>{rank}</td>
   <td>{code}</td>
-  <td>{name}</td>
+  <td><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID={code}" target="_blank" rel="noopener">{name}</a></td>
   <td>{close_price}</td>
   <td class="center">{has_futures}</td>
   <td class="center">{has_mini_futures}</td>
