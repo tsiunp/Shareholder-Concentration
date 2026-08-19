@@ -62,14 +62,24 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   th:nth-child(1), td:nth-child(1),
   th:nth-child(2), td:nth-child(2),
   th:nth-child(3), td:nth-child(3) {{ text-align: left; }}
-  td.center, th.center {{ text-align: center; }}
-  .yes-mark {{ color: #197b3e; font-weight: bold; }}
-  .no-mark {{ color: #bbb; }}
   .stock-link {{
     color: #2d5be3;
     text-decoration: none;
   }}
   .stock-link:hover {{ text-decoration: underline; }}
+  .badge {{
+    display: inline-block;
+    margin-left: 4px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.5;
+    vertical-align: middle;
+    color: #fff;
+  }}
+  .badge-futures {{ background: #d9822b; }}
+  .badge-mini {{ background: #7a5ec9; }}
   th {{ background: #fafafa; font-weight: 600; color: #555; }}
   tr:hover {{ background: #f0f4ff; }}
   .positive {{ color: #d23; }}
@@ -136,10 +146,8 @@ showTab('1');
 ROW_TEMPLATE = """<tr>
   <td>{rank}</td>
   <td>{code}</td>
-  <td><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID={code}" target="_blank" rel="noopener">{name}</a></td>
+  <td><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID={code}" target="_blank" rel="noopener">{name}</a>{badges}</td>
   <td>{close_price}</td>
-  <td class="center">{has_futures}</td>
-  <td class="center">{has_mini_futures}</td>
   <td class="{c1}">{d1}</td>
   <td class="{c5}">{d5}</td>
   <td class="{c10}">{d10}</td>
@@ -165,8 +173,17 @@ def build_watchlist_text(rows, market_map):
     return ",".join(symbols)
 
 
-def yes_no_mark(is_yes):
-    return '<span class="yes-mark">✓</span>' if is_yes else '<span class="no-mark">-</span>'
+def build_badges(futures_info):
+    """
+    根據該股票有沒有期貨/小型期貨，組成要貼在名稱旁邊的小徽章 HTML。
+    滑鼠移上去會顯示完整說明文字（title 屬性）。
+    """
+    badges = ""
+    if futures_info.get("futures"):
+        badges += '<span class="badge badge-futures" title="有股票期貨">期</span>'
+    if futures_info.get("mini_futures"):
+        badges += '<span class="badge badge-mini" title="有小型股票期貨">小</span>'
+    return badges
 
 
 def build_panel(period, rows, futures_map, price_map):
@@ -179,8 +196,7 @@ def build_panel(period, rows, futures_map, price_map):
         trs.append(ROW_TEMPLATE.format(
             rank=r["rank"], code=r["code"], name=r["name"],
             close_price=close_price,
-            has_futures=yes_no_mark(futures_info["futures"]),
-            has_mini_futures=yes_no_mark(futures_info["mini_futures"]),
+            badges=build_badges(futures_info),
             d1=r["d1"], d5=r["d5"], d10=r["d10"], d20=r["d20"],
             d60=r["d60"], d120=r["d120"], avg_vol_10d=r["avg_vol_10d"],
             c1=cls(r["d1"]), c5=cls(r["d5"]), c10=cls(r["d10"]),
@@ -193,23 +209,21 @@ def build_panel(period, rows, futures_map, price_map):
   <table>
     <colgroup>
       <col style="width:5%">
-      <col style="width:7%">
-      <col style="width:11%">
       <col style="width:8%">
-      <col style="width:7%">
-      <col style="width:8%">
-      <col style="width:7%">
-      <col style="width:7%">
-      <col style="width:7%">
-      <col style="width:7%">
-      <col style="width:7%">
-      <col style="width:7%">
-      <col style="width:12%">
+      <col style="width:15%">
+      <col style="width:9%">
+      <col style="width:9%">
+      <col style="width:9%">
+      <col style="width:9%">
+      <col style="width:9%">
+      <col style="width:9%">
+      <col style="width:9%">
+      <col style="width:14%">
     </colgroup>
     <thead>
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
-        <th>收盤價</th><th class="center">有期貨</th><th class="center">有小期貨</th>
+        <th>收盤價</th>
         <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
         <th>10日均量</th>
       </tr>
