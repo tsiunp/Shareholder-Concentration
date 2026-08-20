@@ -80,6 +80,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   }}
   .badge-futures {{ background: #d9822b; }}
   .badge-mini {{ background: #7a5ec9; }}
+  .highlight-col {{ background: rgba(0,0,0,0.06); }}
   th {{ background: #fafafa; font-weight: 600; color: #555; }}
   tr:hover {{ background: #f0f4ff; }}
   .positive {{ color: #d23; }}
@@ -148,10 +149,10 @@ ROW_TEMPLATE = """<tr>
   <td>{code}</td>
   <td><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID={code}" target="_blank" rel="noopener">{name}</a>{badges}</td>
   <td>{close_price}</td>
-  <td class="{c1}">{d1}</td>
-  <td class="{c5}">{d5}</td>
-  <td class="{c10}">{d10}</td>
-  <td class="{c20}">{d20}</td>
+  <td class="{c1} {hl1}">{d1}</td>
+  <td class="{c5} {hl5}">{d5}</td>
+  <td class="{c10} {hl10}">{d10}</td>
+  <td class="{c20} {hl20}">{d20}</td>
   <td class="{c60}">{d60}</td>
   <td class="{c120}">{d120}</td>
   <td>{avg_vol_10d}</td>
@@ -187,6 +188,13 @@ def build_badges(futures_info):
 
 
 def build_panel(period, rows, futures_map, price_map):
+    # 依照目前分頁是哪個週期，決定要幫「1日/5日/10日/20日」哪一欄加上灰底樣式，
+    # 例如目前是 5日排行，就只有 5日 那欄（含表頭）會有 highlight-col
+    hl1 = "highlight-col" if period == "1" else ""
+    hl5 = "highlight-col" if period == "5" else ""
+    hl10 = "highlight-col" if period == "10" else ""
+    hl20 = "highlight-col" if period == "20" else ""
+
     trs = []
     for r in rows:
         code = r["code"]
@@ -201,6 +209,7 @@ def build_panel(period, rows, futures_map, price_map):
             d60=r["d60"], d120=r["d120"], avg_vol_10d=r["avg_vol_10d"],
             c1=cls(r["d1"]), c5=cls(r["d5"]), c10=cls(r["d10"]),
             c20=cls(r["d20"]), c60=cls(r["d60"]), c120=cls(r["d120"]),
+            hl1=hl1, hl5=hl5, hl10=hl10, hl20=hl20,
         ))
     table = f"""
 <div id="panel-{period}" class="panel">
@@ -224,7 +233,7 @@ def build_panel(period, rows, futures_map, price_map):
       <tr>
         <th>排名</th><th>代碼</th><th>名稱</th>
         <th>收盤價</th>
-        <th>1日</th><th>5日</th><th>10日</th><th>20日</th><th>60日</th><th>120日</th>
+        <th class="{hl1}">1日</th><th class="{hl5}">5日</th><th class="{hl10}">10日</th><th class="{hl20}">20日</th><th>60日</th><th>120日</th>
         <th>10日均量</th>
       </tr>
     </thead>
