@@ -62,6 +62,25 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   th:nth-child(1), td:nth-child(1),
   th:nth-child(2), td:nth-child(2),
   th:nth-child(3), td:nth-child(3) {{ text-align: left; }}
+
+  /* 凍結「代碼」「名稱」兩欄：手機橫向滑動時這兩欄固定貼在左邊不會滑走，
+     「排名」欄則跟其他資料一起正常滑動。colgroup 裡代碼欄寬是8%，
+     所以名稱欄的 left 要設成8%，緊接在代碼欄後面，兩欄才會無縫貼在一起。 */
+  th:nth-child(2), td:nth-child(2) {{
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: #fff;
+  }}
+  th:nth-child(3), td:nth-child(3) {{
+    position: sticky;
+    left: 8%;
+    z-index: 1;
+    background: #fff;
+    box-shadow: 2px 0 4px rgba(0,0,0,0.08); /* 分隔線，區分凍結區跟可滑動區 */
+  }}
+  th:nth-child(2), th:nth-child(3) {{ background: #fafafa; }}
+  tr:hover td:nth-child(2), tr:hover td:nth-child(3) {{ background: #f0f4ff; }}
   .stock-link {{
     color: #2d5be3;
     text-decoration: none;
@@ -122,6 +141,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <h1>TWSExTPEX_籌碼集中度排行</h1>
 <div class="meta">
   資料來源更新時間：{source_updated_at}　|　爬蟲擷取時間：{fetched_at}
+  　|　<a href="heatmap.html" style="color:#2d5be3;">📊 查看即時漲跌熱力圖 →</a>
 </div>
 
 <div class="tabs">
