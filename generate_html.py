@@ -74,7 +74,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   }}
   th:nth-child(3), td:nth-child(3) {{
     position: sticky;
-    left: 8%;
+    left: 10%;
     z-index: 1;
     background: #fff;
     box-shadow: 2px 0 4px rgba(0,0,0,0.08); /* 分隔線，區分凍結區跟可滑動區 */
