@@ -74,7 +74,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   }}
   th:nth-child(3), td:nth-child(3) {{
     position: sticky;
-    left: 10%;
+    left: 12%;
     z-index: 1;
     background: #fff;
     box-shadow: 2px 0 4px rgba(0,0,0,0.08); /* 分隔線，區分凍結區跟可滑動區 */
@@ -238,16 +238,16 @@ def build_panel(period, rows, futures_map, price_map):
   <table>
     <colgroup>
       <col style="width:5%">
-      <col style="width:8%">
-      <col style="width:15%">
-      <col style="width:9%">
-      <col style="width:9%">
-      <col style="width:9%">
-      <col style="width:9%">
-      <col style="width:9%">
-      <col style="width:9%">
-      <col style="width:9%">
+      <col style="width:12%">
       <col style="width:14%">
+      <col style="width:8%">
+      <col style="width:8%">
+      <col style="width:8%">
+      <col style="width:8%">
+      <col style="width:8%">
+      <col style="width:8%">
+      <col style="width:8%">
+      <col style="width:13%">
     </colgroup>
     <thead>
       <tr>
