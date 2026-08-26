@@ -141,7 +141,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <h1>TWSExTPEX_籌碼集中度排行</h1>
 <div class="meta">
   資料來源更新時間：{source_updated_at}　|　爬蟲擷取時間：{fetched_at}
-  　|　<a href="heatmap.html" style="color:#2d5be3;">📊 查看即時漲跌熱力圖 →</a>
+  　|　<a href="https://www.nstock.tw/market_index/heatmap" style="color:#2d5be3;">📊 即時漲跌熱力圖 →</a>
 </div>
 
 <div class="tabs">
