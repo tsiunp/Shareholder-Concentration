@@ -55,7 +55,7 @@ def build_market_map():
         try:
             resp = requests.get(url, headers=HEADERS, timeout=20)
             resp.raise_for_status()
-            resp.encoding = "big5"
+            resp.encoding = "cp950"
             soup = BeautifulSoup(resp.text, "html.parser")
             # 這個頁面上有多個 table（含版面用的），真正的股票清單表格是 class="h4"，
             # 一定要精準指定，否則會抓到錯的表格（例如版頭），導致清單是空的
@@ -269,8 +269,8 @@ def fetch_table(period: str):
     resp = requests.get(url, headers=HEADERS, timeout=20)
     resp.raise_for_status()
 
-    # 網站是 Big5 編碼（繁體中文舊編碼），一定要指定，否則會變亂碼
-    resp.encoding = "big5"
+    # 網站是 cp950 編碼（繁體中文舊編碼），一定要指定，否則會變亂碼
+    resp.encoding = "cp950"
 
     soup = BeautifulSoup(resp.text, "html.parser")
     table = soup.find("table")
@@ -302,7 +302,7 @@ def find_update_time(period: str) -> str:
     """從網頁下方文字擷取更新時間戳記（格式如 2026/8/15 23:02）"""
     url = BASE_URL + PAGES[period]
     resp = requests.get(url, headers=HEADERS, timeout=20)
-    resp.encoding = "big5"
+    resp.encoding = "cp950"
     text = resp.text
     # 簡單抓取時間格式，若抓不到就用現在時間代替
     import re
