@@ -12,7 +12,7 @@ import os
 import csv
 from datetime import datetime, timedelta
 
-BASE_URL = "https://www.peicheng.com.tw/asp/main/report/dream_report/"
+BASE_URL = "https://www.peicheng.com.tw/asp/main/report/report_r4all.html"
 
 # 四個分頁對應的頁面檔名（中文檔名，requests 會自動處理編碼）
 PAGES = {
