@@ -3,6 +3,12 @@
 peicheng.com.tw 籌碼集中度排行 爬蟲
 抓取 1日 / 5日 / 10日 / 20日 排行資料，存成 data/latest.json
 同時把每天的資料附加到 data/history.csv，方便未來查歷史。
+
+另外還會抓：
+  - 上市/上櫃對照表（給 TradingView 觀察清單用）
+  - 股票期貨/小型股票期貨標的清單
+  - 上市+上櫃官方收盤價
+  - 股票產業別分類 + 完整普通股清單（給熱力圖頁面用）
 """
 
 import requests
@@ -36,7 +42,97 @@ COLUMNS = [
     "avg_vol_10d",
 ]
 
-TOP_N = 30  # 使用者只需要前30名
+TOP_N = 30  # 網站僅前30名
+
+# 遇到暫時性錯誤（例如對方伺服器502/503/504）時，最多重試幾次、每次間隔幾秒
+RETRY_TIMES = 3
+RETRY_DELAY_SECONDS = 5
+RETRYABLE_STATUS_CODES = {502, 503, 504}
+
+
+def request_with_retry(url, **kwargs):
+    """
+    包裝 requests.get，遇到暫時性錯誤（502/503/504、連線逾時、連線中斷）
+    會自動重試幾次，每次間隔幾秒，比較能撐過對方伺服器一時的短暫異常，
+    不用每次都要手動重新整個 workflow。
+    """
+    last_exc = None
+    for attempt in range(1, RETRY_TIMES + 1):
+        try:
+            resp = requests.get(url, **kwargs)
+            if resp.status_code in RETRYABLE_STATUS_CODES:
+                print(f"  提示：{url} 回應 {resp.status_code}"
+                      f"（第{attempt}/{RETRY_TIMES}次嘗試），{RETRY_DELAY_SECONDS}秒後重試...")
+                last_exc = requests.exceptions.HTTPError(
+                    f"{resp.status_code} Server Error（重試後仍失敗）", response=resp
+                )
+                if attempt < RETRY_TIMES:
+                    import time
+                    time.sleep(RETRY_DELAY_SECONDS)
+                    continue
+                resp.raise_for_status()
+            return resp
+        except (requests.exceptions.ConnectionError,
+                requests.exceptions.Timeout,
+                requests.exceptions.ChunkedEncodingError) as e:
+            last_exc = e
+            print(f"  提示：{url} 連線失敗（{type(e).__name__}），"
+                  f"（第{attempt}/{RETRY_TIMES}次嘗試），{RETRY_DELAY_SECONDS}秒後重試...")
+            if attempt < RETRY_TIMES:
+                import time
+                time.sleep(RETRY_DELAY_SECONDS)
+                continue
+            raise
+    if last_exc:
+        raise last_exc
+
+
+def fetch_table(period: str):
+    """抓取單一分頁（1/5/10/20日）的排行表格"""
+    url = BASE_URL + PAGES[period]
+    resp = request_with_retry(url, headers=HEADERS, timeout=20)
+    resp.raise_for_status()
+
+    # 網站是 Big5 系列編碼，用 cp950（微軟版Big5，涵蓋範圍比標準big5更完整）
+    # 避免像「碁」這種較少見的字被解碼成亂碼
+    resp.encoding = "cp950"
+
+    soup = BeautifulSoup(resp.text, "html.parser")
+    table = soup.find("table")
+    if table is None:
+        raise RuntimeError(f"找不到表格，網站結構可能改變了：{url}")
+
+    rows = []
+    for tr in table.find_all("tr"):
+        cells = tr.find_all("td")
+        if len(cells) < 9:
+            continue
+
+        texts = [c.get_text(strip=True) for c in cells]
+
+        # 跳過標題列 / 說明列：資料列的第一格應該是純數字排名
+        if not texts[0].isdigit():
+            continue
+
+        row = dict(zip(COLUMNS, texts))
+        rows.append(row)
+
+        if len(rows) >= TOP_N:
+            break
+
+    return rows
+
+
+def find_update_time(period: str) -> str:
+    """從網頁下方文字擷取更新時間戳記（格式如 2026/8/15 23:02）"""
+    url = BASE_URL + PAGES[period]
+    resp = request_with_retry(url, headers=HEADERS, timeout=20)
+    resp.encoding = "cp950"
+    text = resp.text
+    import re
+    m = re.search(r"\d{4}/\d{1,2}/\d{1,2}\s*\d{1,2}:\d{2}", text)
+    return m.group(0) if m else datetime.now().strftime("%Y/%m/%d %H:%M")
+
 
 # 台灣證交所公開的「上市/上櫃證券清單」，用來判斷每檔股票該用 TWSE 還是 TPEX
 MARKET_LIST_URLS = {
@@ -53,11 +149,11 @@ def build_market_map():
     market_map = {}
     for market, url in MARKET_LIST_URLS.items():
         try:
-            resp = requests.get(url, headers=HEADERS, timeout=20)
+            resp = request_with_retry(url, headers=HEADERS, timeout=20)
             resp.raise_for_status()
             resp.encoding = "cp950"
             soup = BeautifulSoup(resp.text, "html.parser")
-            # 這個頁面上有多個 table（含版面用的），真正的股票清單表格是 class="h4"，
+            # 這個頁面上有多個 table，真正的股票清單表格是 class="h4"，
             # 一定要精準指定，否則會抓到錯的表格（例如版頭），導致清單是空的
             table = soup.find("table", {"class": "h4"})
             if table is None:
@@ -84,6 +180,62 @@ def build_market_map():
     return market_map
 
 
+def build_stock_universe():
+    """
+    抓取證交所公開清單，這次額外多讀「產業別」欄位，
+    並且只保留「普通股」（排除ETF、權證、公司債等），
+    回傳兩份資料：
+      1. sector_map：{股票代碼: 產業別}，給熱力圖分組用
+      2. stock_list：[{code, name, market, sector}, ...] 完整普通股清單
+    普通股的判斷方式：CFICode 開頭是 "ES"（Equity Shares 的標準代碼），
+    這是國際 ISIN 標準分類，比較不會受台灣網站中文分類名稱變動影響。
+    """
+    sector_map = {}
+    stock_list = []
+
+    for market, url in MARKET_LIST_URLS.items():
+        try:
+            resp = request_with_retry(url, headers=HEADERS, timeout=20)
+            resp.raise_for_status()
+            resp.encoding = "cp950"
+            soup = BeautifulSoup(resp.text, "html.parser")
+            table = soup.find("table", {"class": "h4"})
+            if table is None:
+                table = soup.find("table")
+            if table is None:
+                print(f"警告：{market} 清單頁面找不到表格，略過（股票母體清單）")
+                continue
+
+            for tr in table.find_all("tr"):
+                tds = tr.find_all("td")
+                if len(tds) < 6:
+                    continue
+                first_cell = tds[0].get_text()
+                if "\u3000" not in first_cell:
+                    continue
+                code, name = first_cell.split("\u3000", 1)
+                code = code.strip()
+                name = name.strip()
+                if not code.isdigit():
+                    continue
+
+                sector = tds[4].get_text(strip=True)
+                cfi_code = tds[5].get_text(strip=True)
+
+                if not cfi_code.startswith("ES"):
+                    continue  # 只留普通股，排除ETF/權證/公司債等
+
+                sector_map[code] = sector or "其他"
+                stock_list.append({
+                    "code": code, "name": name, "market": market,
+                    "sector": sector or "其他",
+                })
+        except requests.RequestException as e:
+            print(f"警告：抓取 {market} 清單失敗（{e}），略過（股票母體清單）")
+
+    return sector_map, stock_list
+
+
 # 期交所「股票期貨/股票選擇權 交易標的」清單網址
 FUTURES_LIST_URL = "https://www.taifex.com.tw/cht/2/stockLists"
 
@@ -98,7 +250,7 @@ def build_futures_map():
     """
     futures_map = {}
     try:
-        resp = requests.get(FUTURES_LIST_URL, headers=HEADERS, timeout=20)
+        resp = request_with_retry(FUTURES_LIST_URL, headers=HEADERS, timeout=20)
         resp.raise_for_status()
         resp.encoding = "utf-8"
         soup = BeautifulSoup(resp.text, "html.parser")
@@ -139,24 +291,21 @@ def build_price_map():
     抓取上市（TWSE）+ 上櫃（TPEX）官方每日收盤價，回傳 {股票代碼: 收盤價字串}
     同時回傳資料實際對應的日期字串，方便驗證是否真的是「今天」的收盤價。
 
-    注意：上市部分原本用 openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL，
-    但實測發現這個端點固定會延遲一個交易日（不管多晚打都一樣），
-    改用證交所「每日收盤行情」端點 www.twse.com.tw/exchangeReport/MI_INDEX，
-    這個才會在收盤後即時更新成當天的資料。
+    上市部分用證交所「每日收盤行情」端點 www.twse.com.tw/exchangeReport/MI_INDEX，
+    如果查詢當天還沒有資料（例如還沒收盤、或剛好非交易日），
+    會自動往前一天一天找，最多找 7 天，直到抓到最近一個有資料的交易日為止。
     """
     price_map = {}
     price_dates = {}
 
     # 上市：證交所「每日收盤行情」
-    # 如果查詢當天還沒有資料（例如還沒收盤、或剛好非交易日），
-    # 自動往前一天一天找，最多找 7 天，直到抓到最近一個有資料的交易日為止。
     try:
         found = False
         for days_back in range(0, 8):
             query_date = datetime.now() - timedelta(days=days_back)
             query_compact = query_date.strftime("%Y%m%d")
 
-            resp = requests.get(
+            resp = request_with_retry(
                 "https://www.twse.com.tw/exchangeReport/MI_INDEX",
                 params={"response": "json", "date": query_compact, "type": "ALLBUT0999"},
                 headers=HEADERS, timeout=20,
@@ -263,53 +412,6 @@ def build_price_map():
     return price_map, price_dates
 
 
-def fetch_table(period: str):
-    """抓取單一分頁（1/5/10/20日）的排行表格"""
-    url = BASE_URL + PAGES[period]
-    resp = requests.get(url, headers=HEADERS, timeout=20)
-    resp.raise_for_status()
-
-    # 網站是 cp950 編碼（繁體中文舊編碼），一定要指定，否則會變亂碼
-    resp.encoding = "cp950"
-
-    soup = BeautifulSoup(resp.text, "html.parser")
-    table = soup.find("table")
-    if table is None:
-        raise RuntimeError(f"找不到表格，網站結構可能改變了：{url}")
-
-    rows = []
-    for tr in table.find_all("tr"):
-        cells = tr.find_all("td")
-        if len(cells) < 9:
-            continue
-
-        texts = [c.get_text(strip=True) for c in cells]
-
-        # 跳過標題列 / 說明列：資料列的第一格應該是純數字排名
-        if not texts[0].isdigit():
-            continue
-
-        row = dict(zip(COLUMNS, texts))
-        rows.append(row)
-
-        if len(rows) >= TOP_N:
-            break
-
-    return rows
-
-
-def find_update_time(period: str) -> str:
-    """從網頁下方文字擷取更新時間戳記（格式如 2026/8/15 23:02）"""
-    url = BASE_URL + PAGES[period]
-    resp = requests.get(url, headers=HEADERS, timeout=20)
-    resp.encoding = "cp950"
-    text = resp.text
-    # 簡單抓取時間格式，若抓不到就用現在時間代替
-    import re
-    m = re.search(r"\d{4}/\d{1,2}/\d{1,2}\s*\d{1,2}:\d{2}", text)
-    return m.group(0) if m else datetime.now().strftime("%Y/%m/%d %H:%M")
-
-
 def main():
     result = {
         "fetched_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -325,6 +427,7 @@ def main():
             result["source_updated_at"] = find_update_time(period)
 
     os.makedirs("data", exist_ok=True)
+    os.makedirs("docs", exist_ok=True)
 
     # 1) 存最新一份完整資料（給網頁讀取用）
     with open("data/latest.json", "w", encoding="utf-8") as f:
@@ -351,6 +454,17 @@ def main():
     futures_count = sum(1 for v in futures_map.values() if v["futures"])
     mini_count = sum(1 for v in futures_map.values() if v["mini_futures"])
     print(f"股票期貨標的筆數：一般={futures_count}, 小型={mini_count}")
+
+    # 1c2) 抓取股票產業別分類 + 完整普通股清單，存成 data/sector_map.json、docs/stock_universe.json
+    #      這是給「熱力圖」頁面用的：熱力圖用產業別分組，即時股價則由瀏覽器端自己抓
+    print("抓取股票產業別分類與完整股票清單中...")
+    sector_map, stock_list = build_stock_universe()
+    with open("data/sector_map.json", "w", encoding="utf-8") as f:
+        json.dump(sector_map, f, ensure_ascii=False)
+    with open("docs/stock_universe.json", "w", encoding="utf-8") as f:
+        # 存到 docs/ 底下，因為熱力圖網頁的瀏覽器端 JS 要能直接讀到這個檔案
+        json.dump(stock_list, f, ensure_ascii=False)
+    print(f"股票母體清單筆數：{len(stock_list)}（產業別對照表：{len(sector_map)} 筆）")
 
     # 1d) 抓取上市+上櫃官方收盤價，存成 data/price_map.json
     print("抓取收盤價中...")
