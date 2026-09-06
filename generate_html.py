@@ -167,7 +167,7 @@ showTab('1');
 ROW_TEMPLATE = """<tr>
   <td>{rank}</td>
   <td>{code}</td>
-  <td><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID={code}" target="_blank" rel="noopener">{name}</a>{badges}</td>
+  <td><a class="stock-link" href="https://www.wantgoo.com/stock/{code}/major-investors/main-trend" target="_blank" rel="noopener">{name}</a>{badges}</td>
   <td>{close_price}</td>
   <td class="{c1} {hl1}">{d1}</td>
   <td class="{c5} {hl5}">{d5}</td>
