@@ -411,12 +411,6 @@ def build_price_map():
 
     return price_map, price_dates
 
-bash
-
-find / -maxdepth 4 -iname "generate_html.py" 2>/dev/null
-Output
-
-/home/claude/peicheng-scraper/generate_html.py
 def main():
     result = {
         "fetched_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
