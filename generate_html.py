@@ -5,7 +5,6 @@ docs/ 資料夾是為了配合 GitHub Pages 的預設發佈路徑。
 """
 
 import json
-from datetime import datetime
 
 PERIOD_LABELS = {"1": "1日", "5": "5日", "10": "10日", "20": "20日"}
 
@@ -13,7 +12,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>TWSExTPEX_籌碼集中度排行</title>
 <style>
   body {{
@@ -64,8 +63,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   th:nth-child(3), td:nth-child(3) {{ text-align: left; }}
 
   /* 凍結「代碼」「名稱」兩欄：手機橫向滑動時這兩欄固定貼在左邊不會滑走，
-     「排名」欄則跟其他資料一起正常滑動。colgroup 裡代碼欄寬是8%，
-     所以名稱欄的 left 要設成8%，緊接在代碼欄後面，兩欄才會無縫貼在一起。 */
+     「排名」欄則跟其他資料一起正常滑動。 */
   th:nth-child(2), td:nth-child(2) {{
     position: sticky;
     left: 0;
@@ -81,25 +79,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   }}
   th:nth-child(2), th:nth-child(3) {{ background: #fafafa; }}
   tr:hover td:nth-child(2), tr:hover td:nth-child(3) {{ background: #f0f4ff; }}
-  .stock-link {{
-    color: #2d5be3;
-    text-decoration: none;
-  }}
-  .stock-link:hover {{ text-decoration: underline; }}
-  .badge {{
-    display: inline-block;
-    margin-left: 4px;
-    padding: 1px 5px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 1.5;
-    vertical-align: middle;
-    color: #fff;
-  }}
-  .badge-futures {{ background: #d9822b; }}
-  .badge-mini {{ background: #7a5ec9; }}
-  .highlight-col {{ background: rgba(0,0,0,0.06); }}
+
   th {{ background: #fafafa; font-weight: 600; color: #555; }}
   tr:hover {{ background: #f0f4ff; }}
   .positive {{ color: #d23; }}
@@ -124,6 +104,42 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   }}
   .download-btn:hover {{ background: #145c2e; }}
 
+  .stock-link {{
+    color: #2d5be3;
+    text-decoration: none;
+  }}
+  .stock-link:hover {{ text-decoration: underline; }}
+
+  /* 上市/上櫃 小標籤 */
+  .market-badge {{
+    display: inline-block;
+    margin-right: 4px;
+    padding: 1px 4px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.5;
+    vertical-align: middle;
+    color: #fff;
+  }}
+  .market-twse {{ background: #2d7dd2; }}  /* 上市：藍色 */
+  .market-tpex {{ background: #b5651d; }}  /* 上櫃：棕橘色 */
+
+  .badge {{
+    display: inline-block;
+    margin-left: 4px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.5;
+    vertical-align: middle;
+    color: #fff;
+  }}
+  .badge-futures {{ background: #d9822b; }}
+  .badge-mini {{ background: #7a5ec9; }}
+  .highlight-col {{ background: rgba(0,0,0,0.06); }}
+
   /* 手機/小螢幕（寬度小於600px）：縮小字體跟間距，並顯示「左右滑動可看更多」提示 */
   @media (max-width: 600px) {{
     body {{ padding: 12px; }}
@@ -141,7 +157,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <h1>TWSExTPEX_籌碼集中度排行</h1>
 <div class="meta">
   資料來源更新時間：{source_updated_at}　|　爬蟲擷取時間：{fetched_at}
-  　|　<a href="https://www.nstock.tw/market_index/heatmap" style="color:#2d5be3;">📊 即時漲跌熱力圖 →</a>
+  　|　<a href="heatmap.html" style="color:#2d5be3;">📊 查看即時漲跌熱力圖 →</a>
 </div>
 
 <div class="tabs">
@@ -167,7 +183,7 @@ showTab('1');
 ROW_TEMPLATE = """<tr>
   <td>{rank}</td>
   <td>{code}</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/{code}/major-investors/main-trend" target="_blank" rel="noopener">{name}</a>{badges}</td>
+  <td>{market_badge}<a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID={code}" target="_blank" rel="noopener">{name}</a>{badges}</td>
   <td>{close_price}</td>
   <td class="{c1} {hl1}">{d1}</td>
   <td class="{c5} {hl5}">{d5}</td>
@@ -186,14 +202,6 @@ def cls(v):
         return ""
 
 
-def build_watchlist_text(rows, market_map):
-    """把該分頁的股票代碼組成 TradingView 可匯入的觀察清單格式"""
-    # 優先查對照表判斷是上市(TWSE)還是上櫃(TPEX)；
-    # 如果對照表裡查不到（極少數情況），預設用 TWSE。
-    symbols = [f"{market_map.get(r['code'], 'TWSE')}:{r['code']}" for r in rows]
-    return ",".join(symbols)
-
-
 def build_badges(futures_info):
     """
     根據該股票有沒有期貨/小型期貨，組成要貼在名稱旁邊的小徽章 HTML。
@@ -207,7 +215,24 @@ def build_badges(futures_info):
     return badges
 
 
-def build_panel(period, rows, futures_map, price_map):
+def build_market_badge(market):
+    """
+    根據該股票是上市（TWSE）還是上櫃（TPEX），組成要貼在名稱前面的小標籤 HTML。
+    """
+    if market == "TPEX":
+        return '<span class="market-badge market-tpex" title="上櫃">櫃</span>'
+    return '<span class="market-badge market-twse" title="上市">市</span>'
+
+
+def build_watchlist_text(rows, market_map):
+    """把該分頁的股票代碼組成 TradingView 可匯入的觀察清單格式"""
+    # 優先查對照表判斷是上市(TWSE)還是上櫃(TPEX)；
+    # 如果對照表裡查不到（極少數情況），預設用 TWSE。
+    symbols = [f"{market_map.get(r['code'], 'TWSE')}:{r['code']}" for r in rows]
+    return ",".join(symbols)
+
+
+def build_panel(period, rows, futures_map, price_map, market_map):
     # 依照目前分頁是哪個週期，決定要幫「1日/5日/10日/20日」哪一欄加上灰底樣式，
     # 例如目前是 5日排行，就只有 5日 那欄（含表頭）會有 highlight-col
     hl1 = "highlight-col" if period == "1" else ""
@@ -220,10 +245,12 @@ def build_panel(period, rows, futures_map, price_map):
         code = r["code"]
         close_price = price_map.get(code, "-")
         futures_info = futures_map.get(code, {"futures": False, "mini_futures": False})
+        market = market_map.get(code, "TWSE")
 
         trs.append(ROW_TEMPLATE.format(
             rank=r["rank"], code=r["code"], name=r["name"],
             close_price=close_price,
+            market_badge=build_market_badge(market),
             badges=build_badges(futures_info),
             d1=r["d1"], d5=r["d5"], d10=r["d10"], d20=r["d20"],
             d60=r["d60"], d120=r["d120"], avg_vol_10d=r["avg_vol_10d"],
@@ -275,14 +302,13 @@ def main():
     with open("data/latest.json", "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    # 讀取上市/上櫃對照表（scraper.py 產生），找不到就當作空字典（全部 fallback 用 TWSE）
+    # 讀取上市/上櫃對照表、股票期貨標的清單、收盤價（scraper.py 產生），找不到就當空字典
     try:
         with open("data/market_map.json", "r", encoding="utf-8") as f:
             market_map = json.load(f)
     except FileNotFoundError:
         market_map = {}
 
-    # 讀取股票期貨標的清單、收盤價（scraper.py 產生），找不到就當空字典
     try:
         with open("data/futures_map.json", "r", encoding="utf-8") as f:
             futures_map = json.load(f)
@@ -301,7 +327,8 @@ def main():
     )
 
     panels = "\n".join(
-        build_panel(p, data["data"].get(p, []), futures_map, price_map) for p in PERIOD_LABELS
+        build_panel(p, data["data"].get(p, []), futures_map, price_map, market_map)
+        for p in PERIOD_LABELS
     )
 
     html = HTML_TEMPLATE.format(
