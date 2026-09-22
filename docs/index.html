@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>TWSExTPEX_籌碼集中度排行</title>
 <style>
   body {
@@ -53,8 +53,7 @@
   th:nth-child(3), td:nth-child(3) { text-align: left; }
 
   /* 凍結「代碼」「名稱」兩欄：手機橫向滑動時這兩欄固定貼在左邊不會滑走，
-     「排名」欄則跟其他資料一起正常滑動。colgroup 裡代碼欄寬是8%，
-     所以名稱欄的 left 要設成8%，緊接在代碼欄後面，兩欄才會無縫貼在一起。 */
+     「排名」欄則跟其他資料一起正常滑動。 */
   th:nth-child(2), td:nth-child(2) {
     position: sticky;
     left: 0;
@@ -70,25 +69,7 @@
   }
   th:nth-child(2), th:nth-child(3) { background: #fafafa; }
   tr:hover td:nth-child(2), tr:hover td:nth-child(3) { background: #f0f4ff; }
-  .stock-link {
-    color: #2d5be3;
-    text-decoration: none;
-  }
-  .stock-link:hover { text-decoration: underline; }
-  .badge {
-    display: inline-block;
-    margin-left: 4px;
-    padding: 1px 5px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 1.5;
-    vertical-align: middle;
-    color: #fff;
-  }
-  .badge-futures { background: #d9822b; }
-  .badge-mini { background: #7a5ec9; }
-  .highlight-col { background: rgba(0,0,0,0.06); }
+
   th { background: #fafafa; font-weight: 600; color: #555; }
   tr:hover { background: #f0f4ff; }
   .positive { color: #d23; }
@@ -113,6 +94,42 @@
   }
   .download-btn:hover { background: #145c2e; }
 
+  .stock-link {
+    color: #2d5be3;
+    text-decoration: none;
+  }
+  .stock-link:hover { text-decoration: underline; }
+
+  /* 上市/上櫃 小標籤 */
+  .market-badge {
+    display: inline-block;
+    margin-right: 4px;
+    padding: 1px 4px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.5;
+    vertical-align: middle;
+    color: #fff;
+  }
+  .market-twse { background: #2d7dd2; }  /* 上市：藍色 */
+  .market-tpex { background: #b5651d; }  /* 上櫃：棕橘色 */
+
+  .badge {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.5;
+    vertical-align: middle;
+    color: #fff;
+  }
+  .badge-futures { background: #d9822b; }
+  .badge-mini { background: #7a5ec9; }
+  .highlight-col { background: rgba(0,0,0,0.06); }
+
   /* 手機/小螢幕（寬度小於600px）：縮小字體跟間距，並顯示「左右滑動可看更多」提示 */
   @media (max-width: 600px) {
     body { padding: 12px; }
@@ -130,8 +147,8 @@
 <h1>TWSExTPEX_籌碼集中度排行</h1>
 <div class="meta">
   資料來源更新時間：2026/9/21
-  23:02　|　爬蟲擷取時間：2026-09-21 20:02:15
-  　|　<a href="https://www.nstock.tw/market_index/heatmap" style="color:#2d5be3;">📊 即時漲跌熱力圖 →</a>
+  23:02　|　爬蟲擷取時間：2026-09-22 00:13:25
+  　|　<a href="heatmap.html" style="color:#2d5be3;">📊 查看即時漲跌熱力圖 →</a>
 </div>
 
 <div class="tabs">
@@ -171,7 +188,7 @@
       <tr>
   <td>1</td>
   <td>1721</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1721/major-investors/main-trend" target="_blank" rel="noopener">國慶科技</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1721" target="_blank" rel="noopener">國慶科技</a></td>
   <td>24.20</td>
   <td class="positive highlight-col">67.4</td>
   <td class="positive ">34.8</td>
@@ -183,7 +200,7 @@
 </tr><tr>
   <td>2</td>
   <td>2363</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2363/major-investors/main-trend" target="_blank" rel="noopener">矽統</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2363" target="_blank" rel="noopener">矽統</a></td>
   <td>59.00</td>
   <td class="positive highlight-col">57.2</td>
   <td class="positive ">27.1</td>
@@ -195,7 +212,7 @@
 </tr><tr>
   <td>3</td>
   <td>2855</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2855/major-investors/main-trend" target="_blank" rel="noopener">統一證</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2855" target="_blank" rel="noopener">統一證</a></td>
   <td>57.30</td>
   <td class="positive highlight-col">49.9</td>
   <td class="positive ">24.6</td>
@@ -207,7 +224,7 @@
 </tr><tr>
   <td>4</td>
   <td>2409</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2409/major-investors/main-trend" target="_blank" rel="noopener">友達</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2409" target="_blank" rel="noopener">友達</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>33.35</td>
   <td class="positive highlight-col">45.2</td>
   <td class="positive ">19.1</td>
@@ -219,7 +236,7 @@
 </tr><tr>
   <td>5</td>
   <td>2883</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2883/major-investors/main-trend" target="_blank" rel="noopener">凱基金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2883" target="_blank" rel="noopener">凱基金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>40.45</td>
   <td class="positive highlight-col">44</td>
   <td class="positive ">9.4</td>
@@ -231,7 +248,7 @@
 </tr><tr>
   <td>6</td>
   <td>8150</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/8150/major-investors/main-trend" target="_blank" rel="noopener">南茂</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=8150" target="_blank" rel="noopener">南茂</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>103.00</td>
   <td class="positive highlight-col">41.9</td>
   <td class="positive ">29.2</td>
@@ -243,7 +260,7 @@
 </tr><tr>
   <td>7</td>
   <td>6443</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6443/major-investors/main-trend" target="_blank" rel="noopener">元晶</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6443" target="_blank" rel="noopener">元晶</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>28.05</td>
   <td class="positive highlight-col">40.4</td>
   <td class="positive ">17.4</td>
@@ -255,7 +272,7 @@
 </tr><tr>
   <td>8</td>
   <td>1709</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1709/major-investors/main-trend" target="_blank" rel="noopener">和益</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1709" target="_blank" rel="noopener">和益</a></td>
   <td>43.10</td>
   <td class="positive highlight-col">38.1</td>
   <td class="positive ">0.4</td>
@@ -267,7 +284,7 @@
 </tr><tr>
   <td>9</td>
   <td>1718</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1718/major-investors/main-trend" target="_blank" rel="noopener">中纖</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1718" target="_blank" rel="noopener">中纖</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>10.75</td>
   <td class="positive highlight-col">37.3</td>
   <td class="positive ">17.2</td>
@@ -279,7 +296,7 @@
 </tr><tr>
   <td>10</td>
   <td>3088</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3088/major-investors/main-trend" target="_blank" rel="noopener">艾訊</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3088" target="_blank" rel="noopener">艾訊</a></td>
   <td>129.00</td>
   <td class="positive highlight-col">36.9</td>
   <td class="positive ">20.1</td>
@@ -291,7 +308,7 @@
 </tr><tr>
   <td>11</td>
   <td>1514</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1514/major-investors/main-trend" target="_blank" rel="noopener">亞力</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1514" target="_blank" rel="noopener">亞力</a></td>
   <td>102.50</td>
   <td class="positive highlight-col">36.2</td>
   <td class="positive ">12.6</td>
@@ -303,7 +320,7 @@
 </tr><tr>
   <td>12</td>
   <td>2520</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2520/major-investors/main-trend" target="_blank" rel="noopener">冠德</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2520" target="_blank" rel="noopener">冠德</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>38.35</td>
   <td class="positive highlight-col">35.2</td>
   <td class="positive ">17.5</td>
@@ -315,7 +332,7 @@
 </tr><tr>
   <td>13</td>
   <td>2881</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2881/major-investors/main-trend" target="_blank" rel="noopener">富邦金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2881" target="_blank" rel="noopener">富邦金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>154.50</td>
   <td class="positive highlight-col">34.9</td>
   <td class="positive ">2.7</td>
@@ -327,7 +344,7 @@
 </tr><tr>
   <td>14</td>
   <td>2328</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2328/major-investors/main-trend" target="_blank" rel="noopener">廣宇</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2328" target="_blank" rel="noopener">廣宇</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>47.75</td>
   <td class="positive highlight-col">34.2</td>
   <td class="positive ">22.2</td>
@@ -339,7 +356,7 @@
 </tr><tr>
   <td>15</td>
   <td>2208</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2208/major-investors/main-trend" target="_blank" rel="noopener">台船</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2208" target="_blank" rel="noopener">台船</a></td>
   <td>19.20</td>
   <td class="positive highlight-col">33.6</td>
   <td class="positive ">20.9</td>
@@ -351,7 +368,7 @@
 </tr><tr>
   <td>16</td>
   <td>2371</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2371/major-investors/main-trend" target="_blank" rel="noopener">大同</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2371" target="_blank" rel="noopener">大同</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>30.00</td>
   <td class="positive highlight-col">33.6</td>
   <td class="positive ">19.1</td>
@@ -363,7 +380,7 @@
 </tr><tr>
   <td>17</td>
   <td>2406</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2406/major-investors/main-trend" target="_blank" rel="noopener">國碩</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2406" target="_blank" rel="noopener">國碩</a></td>
   <td>30.40</td>
   <td class="positive highlight-col">33.5</td>
   <td class="positive ">17.7</td>
@@ -375,7 +392,7 @@
 </tr><tr>
   <td>18</td>
   <td>5608</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/5608/major-investors/main-trend" target="_blank" rel="noopener">四維航</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=5608" target="_blank" rel="noopener">四維航</a></td>
   <td>17.15</td>
   <td class="positive highlight-col">33</td>
   <td class="positive ">15.8</td>
@@ -387,7 +404,7 @@
 </tr><tr>
   <td>19</td>
   <td>2851</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2851/major-investors/main-trend" target="_blank" rel="noopener">中再保</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2851" target="_blank" rel="noopener">中再保</a></td>
   <td>48.15</td>
   <td class="positive highlight-col">32.4</td>
   <td class="positive ">10.4</td>
@@ -399,7 +416,7 @@
 </tr><tr>
   <td>20</td>
   <td>6218</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6218/major-investors/main-trend" target="_blank" rel="noopener">豪勉</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6218" target="_blank" rel="noopener">豪勉</a></td>
   <td>67.70</td>
   <td class="positive highlight-col">32.1</td>
   <td class="positive ">1.6</td>
@@ -411,7 +428,7 @@
 </tr><tr>
   <td>21</td>
   <td>8215</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/8215/major-investors/main-trend" target="_blank" rel="noopener">明基材</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=8215" target="_blank" rel="noopener">明基材</a></td>
   <td>30.05</td>
   <td class="positive highlight-col">32.1</td>
   <td class="positive ">5</td>
@@ -423,7 +440,7 @@
 </tr><tr>
   <td>22</td>
   <td>6456</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6456/major-investors/main-trend" target="_blank" rel="noopener">GIS-KY</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6456" target="_blank" rel="noopener">GIS-KY</a></td>
   <td>71.90</td>
   <td class="positive highlight-col">31.6</td>
   <td class="positive ">20.3</td>
@@ -435,7 +452,7 @@
 </tr><tr>
   <td>23</td>
   <td>2376</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2376/major-investors/main-trend" target="_blank" rel="noopener">技嘉</a><span class="badge badge-futures" title="有股票期貨">期</span><span class="badge badge-mini" title="有小型股票期貨">小</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2376" target="_blank" rel="noopener">技嘉</a><span class="badge badge-futures" title="有股票期貨">期</span><span class="badge badge-mini" title="有小型股票期貨">小</span></td>
   <td>368.00</td>
   <td class="positive highlight-col">31.5</td>
   <td class="positive ">19.6</td>
@@ -447,7 +464,7 @@
 </tr><tr>
   <td>24</td>
   <td>2365</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2365/major-investors/main-trend" target="_blank" rel="noopener">昆盈</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2365" target="_blank" rel="noopener">昆盈</a></td>
   <td>29.20</td>
   <td class="positive highlight-col">30.4</td>
   <td class="positive ">3</td>
@@ -459,7 +476,7 @@
 </tr><tr>
   <td>25</td>
   <td>3221</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3221/major-investors/main-trend" target="_blank" rel="noopener">台嘉碩</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3221" target="_blank" rel="noopener">台嘉碩</a></td>
   <td>48.65</td>
   <td class="positive highlight-col">30.2</td>
   <td class="positive ">19.3</td>
@@ -471,7 +488,7 @@
 </tr><tr>
   <td>26</td>
   <td>2395</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2395/major-investors/main-trend" target="_blank" rel="noopener">研華</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2395" target="_blank" rel="noopener">研華</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>706.00</td>
   <td class="positive highlight-col">30</td>
   <td class="positive ">9.3</td>
@@ -483,7 +500,7 @@
 </tr><tr>
   <td>27</td>
   <td>2308</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2308/major-investors/main-trend" target="_blank" rel="noopener">台達電</a><span class="badge badge-futures" title="有股票期貨">期</span><span class="badge badge-mini" title="有小型股票期貨">小</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2308" target="_blank" rel="noopener">台達電</a><span class="badge badge-futures" title="有股票期貨">期</span><span class="badge badge-mini" title="有小型股票期貨">小</span></td>
   <td>1,875.00</td>
   <td class="positive highlight-col">29.9</td>
   <td class="positive ">14</td>
@@ -495,7 +512,7 @@
 </tr><tr>
   <td>28</td>
   <td>4542</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/4542/major-investors/main-trend" target="_blank" rel="noopener">科嶠</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=4542" target="_blank" rel="noopener">科嶠</a></td>
   <td>302.50</td>
   <td class="positive highlight-col">29.8</td>
   <td class="positive ">8.7</td>
@@ -507,7 +524,7 @@
 </tr><tr>
   <td>29</td>
   <td>2882</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2882/major-investors/main-trend" target="_blank" rel="noopener">國泰金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2882" target="_blank" rel="noopener">國泰金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>113.00</td>
   <td class="positive highlight-col">29.4</td>
   <td class="negative ">-1.8</td>
@@ -519,7 +536,7 @@
 </tr><tr>
   <td>30</td>
   <td>4903</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/4903/major-investors/main-trend" target="_blank" rel="noopener">聯光通</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=4903" target="_blank" rel="noopener">聯光通</a></td>
   <td>41.35</td>
   <td class="positive highlight-col">29.1</td>
   <td class="positive ">20.9</td>
@@ -568,7 +585,7 @@
       <tr>
   <td>1</td>
   <td>2034</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2034/major-investors/main-trend" target="_blank" rel="noopener">允強</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2034" target="_blank" rel="noopener">允強</a></td>
   <td>21.45</td>
   <td class="positive ">15.3</td>
   <td class="positive highlight-col">37</td>
@@ -580,7 +597,7 @@
 </tr><tr>
   <td>2</td>
   <td>1721</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1721/major-investors/main-trend" target="_blank" rel="noopener">國慶科技</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1721" target="_blank" rel="noopener">國慶科技</a></td>
   <td>24.20</td>
   <td class="positive ">67.4</td>
   <td class="positive highlight-col">34.8</td>
@@ -592,7 +609,7 @@
 </tr><tr>
   <td>3</td>
   <td>8150</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/8150/major-investors/main-trend" target="_blank" rel="noopener">南茂</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=8150" target="_blank" rel="noopener">南茂</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>103.00</td>
   <td class="positive ">41.9</td>
   <td class="positive highlight-col">29.2</td>
@@ -604,7 +621,7 @@
 </tr><tr>
   <td>4</td>
   <td>6257</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6257/major-investors/main-trend" target="_blank" rel="noopener">矽格</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6257" target="_blank" rel="noopener">矽格</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>250.50</td>
   <td class="positive ">1</td>
   <td class="positive highlight-col">27.8</td>
@@ -616,7 +633,7 @@
 </tr><tr>
   <td>5</td>
   <td>5269</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/5269/major-investors/main-trend" target="_blank" rel="noopener">祥碩</a><span class="badge badge-futures" title="有股票期貨">期</span><span class="badge badge-mini" title="有小型股票期貨">小</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=5269" target="_blank" rel="noopener">祥碩</a><span class="badge badge-futures" title="有股票期貨">期</span><span class="badge badge-mini" title="有小型股票期貨">小</span></td>
   <td>1,475.00</td>
   <td class="positive ">2.4</td>
   <td class="positive highlight-col">27.4</td>
@@ -628,7 +645,7 @@
 </tr><tr>
   <td>6</td>
   <td>2363</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2363/major-investors/main-trend" target="_blank" rel="noopener">矽統</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2363" target="_blank" rel="noopener">矽統</a></td>
   <td>59.00</td>
   <td class="positive ">57.2</td>
   <td class="positive highlight-col">27.1</td>
@@ -640,7 +657,7 @@
 </tr><tr>
   <td>7</td>
   <td>2412</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2412/major-investors/main-trend" target="_blank" rel="noopener">中華電</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2412" target="_blank" rel="noopener">中華電</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>144.50</td>
   <td class="negative ">-1.6</td>
   <td class="positive highlight-col">26.1</td>
@@ -652,7 +669,7 @@
 </tr><tr>
   <td>8</td>
   <td>8936</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/8936/major-investors/main-trend" target="_blank" rel="noopener">國統</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=8936" target="_blank" rel="noopener">國統</a></td>
   <td>52.40</td>
   <td class="positive ">29.1</td>
   <td class="positive highlight-col">25.1</td>
@@ -664,7 +681,7 @@
 </tr><tr>
   <td>9</td>
   <td>3545</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3545/major-investors/main-trend" target="_blank" rel="noopener">敦泰</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3545" target="_blank" rel="noopener">敦泰</a></td>
   <td>51.70</td>
   <td class="positive ">11.8</td>
   <td class="positive highlight-col">24.9</td>
@@ -676,7 +693,7 @@
 </tr><tr>
   <td>10</td>
   <td>2855</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2855/major-investors/main-trend" target="_blank" rel="noopener">統一證</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2855" target="_blank" rel="noopener">統一證</a></td>
   <td>57.30</td>
   <td class="positive ">49.9</td>
   <td class="positive highlight-col">24.6</td>
@@ -688,7 +705,7 @@
 </tr><tr>
   <td>11</td>
   <td>4510</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/4510/major-investors/main-trend" target="_blank" rel="noopener">高鋒</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=4510" target="_blank" rel="noopener">高鋒</a></td>
   <td>44.50</td>
   <td class="positive ">14.4</td>
   <td class="positive highlight-col">24.3</td>
@@ -700,7 +717,7 @@
 </tr><tr>
   <td>12</td>
   <td>3265</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3265/major-investors/main-trend" target="_blank" rel="noopener">台星科</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3265" target="_blank" rel="noopener">台星科</a></td>
   <td>181.00</td>
   <td class="positive ">8.3</td>
   <td class="positive highlight-col">23.9</td>
@@ -712,7 +729,7 @@
 </tr><tr>
   <td>13</td>
   <td>3312</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3312/major-investors/main-trend" target="_blank" rel="noopener">弘憶股</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3312" target="_blank" rel="noopener">弘憶股</a></td>
   <td>54.70</td>
   <td class="positive ">28.6</td>
   <td class="positive highlight-col">23.5</td>
@@ -724,7 +741,7 @@
 </tr><tr>
   <td>14</td>
   <td>2439</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2439/major-investors/main-trend" target="_blank" rel="noopener">美律</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2439" target="_blank" rel="noopener">美律</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>78.60</td>
   <td class="positive ">20.2</td>
   <td class="positive highlight-col">22.3</td>
@@ -736,7 +753,7 @@
 </tr><tr>
   <td>15</td>
   <td>2328</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2328/major-investors/main-trend" target="_blank" rel="noopener">廣宇</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2328" target="_blank" rel="noopener">廣宇</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>47.75</td>
   <td class="positive ">34.2</td>
   <td class="positive highlight-col">22.2</td>
@@ -748,7 +765,7 @@
 </tr><tr>
   <td>16</td>
   <td>3056</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3056/major-investors/main-trend" target="_blank" rel="noopener">富華新</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3056" target="_blank" rel="noopener">富華新</a></td>
   <td>14.35</td>
   <td class="negative ">-14.8</td>
   <td class="positive highlight-col">22.1</td>
@@ -760,7 +777,7 @@
 </tr><tr>
   <td>17</td>
   <td>4526</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/4526/major-investors/main-trend" target="_blank" rel="noopener">東台</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=4526" target="_blank" rel="noopener">東台</a></td>
   <td>32.60</td>
   <td class="positive ">25.5</td>
   <td class="positive highlight-col">22.1</td>
@@ -772,7 +789,7 @@
 </tr><tr>
   <td>18</td>
   <td>4534</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/4534/major-investors/main-trend" target="_blank" rel="noopener">慶騰</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=4534" target="_blank" rel="noopener">慶騰</a></td>
   <td>32.25</td>
   <td class="positive ">28.9</td>
   <td class="positive highlight-col">22.1</td>
@@ -784,7 +801,7 @@
 </tr><tr>
   <td>19</td>
   <td>2441</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2441/major-investors/main-trend" target="_blank" rel="noopener">超豐</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2441" target="_blank" rel="noopener">超豐</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>127.50</td>
   <td class="positive ">12</td>
   <td class="positive highlight-col">21.7</td>
@@ -796,7 +813,7 @@
 </tr><tr>
   <td>20</td>
   <td>3051</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3051/major-investors/main-trend" target="_blank" rel="noopener">力特</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3051" target="_blank" rel="noopener">力特</a></td>
   <td>23.00</td>
   <td class="positive ">19.1</td>
   <td class="positive highlight-col">21.1</td>
@@ -808,7 +825,7 @@
 </tr><tr>
   <td>21</td>
   <td>4903</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/4903/major-investors/main-trend" target="_blank" rel="noopener">聯光通</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=4903" target="_blank" rel="noopener">聯光通</a></td>
   <td>41.35</td>
   <td class="positive ">29.1</td>
   <td class="positive highlight-col">20.9</td>
@@ -820,7 +837,7 @@
 </tr><tr>
   <td>22</td>
   <td>2208</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2208/major-investors/main-trend" target="_blank" rel="noopener">台船</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2208" target="_blank" rel="noopener">台船</a></td>
   <td>19.20</td>
   <td class="positive ">33.6</td>
   <td class="positive highlight-col">20.9</td>
@@ -832,7 +849,7 @@
 </tr><tr>
   <td>23</td>
   <td>2449</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2449/major-investors/main-trend" target="_blank" rel="noopener">京元電子</a><span class="badge badge-futures" title="有股票期貨">期</span><span class="badge badge-mini" title="有小型股票期貨">小</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2449" target="_blank" rel="noopener">京元電子</a><span class="badge badge-futures" title="有股票期貨">期</span><span class="badge badge-mini" title="有小型股票期貨">小</span></td>
   <td>301.50</td>
   <td class="positive ">2.6</td>
   <td class="positive highlight-col">20.8</td>
@@ -844,7 +861,7 @@
 </tr><tr>
   <td>24</td>
   <td>8050</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/8050/major-investors/main-trend" target="_blank" rel="noopener">廣積</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=8050" target="_blank" rel="noopener">廣積</a></td>
   <td>59.10</td>
   <td class="positive ">19.6</td>
   <td class="positive highlight-col">20.7</td>
@@ -856,7 +873,7 @@
 </tr><tr>
   <td>25</td>
   <td>2474</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2474/major-investors/main-trend" target="_blank" rel="noopener">可成</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2474" target="_blank" rel="noopener">可成</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>211.00</td>
   <td class="positive ">27.2</td>
   <td class="positive highlight-col">20.6</td>
@@ -868,7 +885,7 @@
 </tr><tr>
   <td>26</td>
   <td>3022</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3022/major-investors/main-trend" target="_blank" rel="noopener">威強電</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3022" target="_blank" rel="noopener">威強電</a></td>
   <td>92.80</td>
   <td class="positive ">19.9</td>
   <td class="positive highlight-col">20.4</td>
@@ -880,7 +897,7 @@
 </tr><tr>
   <td>27</td>
   <td>6456</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6456/major-investors/main-trend" target="_blank" rel="noopener">GIS-KY</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6456" target="_blank" rel="noopener">GIS-KY</a></td>
   <td>71.90</td>
   <td class="positive ">31.6</td>
   <td class="positive highlight-col">20.3</td>
@@ -892,7 +909,7 @@
 </tr><tr>
   <td>28</td>
   <td>3088</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3088/major-investors/main-trend" target="_blank" rel="noopener">艾訊</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3088" target="_blank" rel="noopener">艾訊</a></td>
   <td>129.00</td>
   <td class="positive ">36.9</td>
   <td class="positive highlight-col">20.1</td>
@@ -904,7 +921,7 @@
 </tr><tr>
   <td>29</td>
   <td>1569</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1569/major-investors/main-trend" target="_blank" rel="noopener">濱川</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1569" target="_blank" rel="noopener">濱川</a></td>
   <td>61.00</td>
   <td class="positive ">29</td>
   <td class="positive highlight-col">20.1</td>
@@ -916,7 +933,7 @@
 </tr><tr>
   <td>30</td>
   <td>8996</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/8996/major-investors/main-trend" target="_blank" rel="noopener">高力</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=8996" target="_blank" rel="noopener">高力</a></td>
   <td>1,505.00</td>
   <td class="positive ">15.1</td>
   <td class="positive highlight-col">20</td>
@@ -965,7 +982,7 @@
       <tr>
   <td>1</td>
   <td>2412</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2412/major-investors/main-trend" target="_blank" rel="noopener">中華電</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2412" target="_blank" rel="noopener">中華電</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>144.50</td>
   <td class="negative ">-1.6</td>
   <td class="positive ">26.1</td>
@@ -977,7 +994,7 @@
 </tr><tr>
   <td>2</td>
   <td>6023</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6023/major-investors/main-trend" target="_blank" rel="noopener">元大期</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6023" target="_blank" rel="noopener">元大期</a></td>
   <td>87.90</td>
   <td class="positive ">12.7</td>
   <td class="positive ">18.3</td>
@@ -989,7 +1006,7 @@
 </tr><tr>
   <td>3</td>
   <td>2034</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2034/major-investors/main-trend" target="_blank" rel="noopener">允強</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2034" target="_blank" rel="noopener">允強</a></td>
   <td>21.45</td>
   <td class="positive ">15.3</td>
   <td class="positive ">37</td>
@@ -1001,7 +1018,7 @@
 </tr><tr>
   <td>4</td>
   <td>6021</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6021/major-investors/main-trend" target="_blank" rel="noopener">美好證</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6021" target="_blank" rel="noopener">美好證</a></td>
   <td>45.40</td>
   <td class="negative ">-3.2</td>
   <td class="positive ">12.5</td>
@@ -1013,7 +1030,7 @@
 </tr><tr>
   <td>5</td>
   <td>2855</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2855/major-investors/main-trend" target="_blank" rel="noopener">統一證</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2855" target="_blank" rel="noopener">統一證</a></td>
   <td>57.30</td>
   <td class="positive ">49.9</td>
   <td class="positive ">24.6</td>
@@ -1025,7 +1042,7 @@
 </tr><tr>
   <td>6</td>
   <td>2474</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2474/major-investors/main-trend" target="_blank" rel="noopener">可成</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2474" target="_blank" rel="noopener">可成</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>211.00</td>
   <td class="positive ">27.2</td>
   <td class="positive ">20.6</td>
@@ -1037,7 +1054,7 @@
 </tr><tr>
   <td>7</td>
   <td>2520</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2520/major-investors/main-trend" target="_blank" rel="noopener">冠德</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2520" target="_blank" rel="noopener">冠德</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>38.35</td>
   <td class="positive ">35.2</td>
   <td class="positive ">17.5</td>
@@ -1049,7 +1066,7 @@
 </tr><tr>
   <td>8</td>
   <td>6257</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6257/major-investors/main-trend" target="_blank" rel="noopener">矽格</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6257" target="_blank" rel="noopener">矽格</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>250.50</td>
   <td class="positive ">1</td>
   <td class="positive ">27.8</td>
@@ -1061,7 +1078,7 @@
 </tr><tr>
   <td>9</td>
   <td>2540</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2540/major-investors/main-trend" target="_blank" rel="noopener">愛山林</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2540" target="_blank" rel="noopener">愛山林</a></td>
   <td>49.10</td>
   <td class="negative ">-17.4</td>
   <td class="positive ">10.1</td>
@@ -1073,7 +1090,7 @@
 </tr><tr>
   <td>10</td>
   <td>1513</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1513/major-investors/main-trend" target="_blank" rel="noopener">中興電</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1513" target="_blank" rel="noopener">中興電</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>166.50</td>
   <td class="positive ">19.9</td>
   <td class="positive ">17.7</td>
@@ -1085,7 +1102,7 @@
 </tr><tr>
   <td>11</td>
   <td>5880</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/5880/major-investors/main-trend" target="_blank" rel="noopener">合庫金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=5880" target="_blank" rel="noopener">合庫金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>27.20</td>
   <td class="positive ">12.2</td>
   <td class="positive ">10.2</td>
@@ -1097,7 +1114,7 @@
 </tr><tr>
   <td>12</td>
   <td>2328</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2328/major-investors/main-trend" target="_blank" rel="noopener">廣宇</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2328" target="_blank" rel="noopener">廣宇</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>47.75</td>
   <td class="positive ">34.2</td>
   <td class="positive ">22.2</td>
@@ -1109,7 +1126,7 @@
 </tr><tr>
   <td>13</td>
   <td>6026</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6026/major-investors/main-trend" target="_blank" rel="noopener">福邦證</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6026" target="_blank" rel="noopener">福邦證</a></td>
   <td>15.80</td>
   <td class="positive ">25.8</td>
   <td class="positive ">17.5</td>
@@ -1121,7 +1138,7 @@
 </tr><tr>
   <td>14</td>
   <td>8936</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/8936/major-investors/main-trend" target="_blank" rel="noopener">國統</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=8936" target="_blank" rel="noopener">國統</a></td>
   <td>52.40</td>
   <td class="positive ">29.1</td>
   <td class="positive ">25.1</td>
@@ -1133,7 +1150,7 @@
 </tr><tr>
   <td>15</td>
   <td>3005</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3005/major-investors/main-trend" target="_blank" rel="noopener">神基</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3005" target="_blank" rel="noopener">神基</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>119.00</td>
   <td class="positive ">23.4</td>
   <td class="positive ">18.7</td>
@@ -1145,7 +1162,7 @@
 </tr><tr>
   <td>16</td>
   <td>6245</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6245/major-investors/main-trend" target="_blank" rel="noopener">立端</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6245" target="_blank" rel="noopener">立端</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>88.40</td>
   <td class="positive ">27.2</td>
   <td class="positive ">9.8</td>
@@ -1157,7 +1174,7 @@
 </tr><tr>
   <td>17</td>
   <td>2371</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2371/major-investors/main-trend" target="_blank" rel="noopener">大同</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2371" target="_blank" rel="noopener">大同</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>30.00</td>
   <td class="positive ">33.6</td>
   <td class="positive ">19.1</td>
@@ -1169,7 +1186,7 @@
 </tr><tr>
   <td>18</td>
   <td>3014</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3014/major-investors/main-trend" target="_blank" rel="noopener">聯陽</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3014" target="_blank" rel="noopener">聯陽</a></td>
   <td>139.50</td>
   <td class="positive ">9.8</td>
   <td class="positive ">18.4</td>
@@ -1181,7 +1198,7 @@
 </tr><tr>
   <td>19</td>
   <td>3062</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3062/major-investors/main-trend" target="_blank" rel="noopener">建漢</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3062" target="_blank" rel="noopener">建漢</a></td>
   <td>23.15</td>
   <td class="positive ">17.1</td>
   <td class="positive ">17</td>
@@ -1193,7 +1210,7 @@
 </tr><tr>
   <td>20</td>
   <td>3702</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3702/major-investors/main-trend" target="_blank" rel="noopener">大聯大</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3702" target="_blank" rel="noopener">大聯大</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>114.00</td>
   <td class="positive ">2.4</td>
   <td class="positive ">13.8</td>
@@ -1205,7 +1222,7 @@
 </tr><tr>
   <td>21</td>
   <td>2851</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2851/major-investors/main-trend" target="_blank" rel="noopener">中再保</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2851" target="_blank" rel="noopener">中再保</a></td>
   <td>48.15</td>
   <td class="positive ">32.4</td>
   <td class="positive ">10.4</td>
@@ -1217,7 +1234,7 @@
 </tr><tr>
   <td>22</td>
   <td>1313</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1313/major-investors/main-trend" target="_blank" rel="noopener">聯成</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1313" target="_blank" rel="noopener">聯成</a></td>
   <td>12.30</td>
   <td class="positive ">27.4</td>
   <td class="positive ">19.3</td>
@@ -1229,7 +1246,7 @@
 </tr><tr>
   <td>23</td>
   <td>3056</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3056/major-investors/main-trend" target="_blank" rel="noopener">富華新</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3056" target="_blank" rel="noopener">富華新</a></td>
   <td>14.35</td>
   <td class="negative ">-14.8</td>
   <td class="positive ">22.1</td>
@@ -1241,7 +1258,7 @@
 </tr><tr>
   <td>24</td>
   <td>2617</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2617/major-investors/main-trend" target="_blank" rel="noopener">台航</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2617" target="_blank" rel="noopener">台航</a></td>
   <td>33.30</td>
   <td class="positive ">25.7</td>
   <td class="positive ">11.7</td>
@@ -1253,7 +1270,7 @@
 </tr><tr>
   <td>25</td>
   <td>3047</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3047/major-investors/main-trend" target="_blank" rel="noopener">訊舟</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3047" target="_blank" rel="noopener">訊舟</a></td>
   <td>15.20</td>
   <td class="positive ">15.4</td>
   <td class="positive ">16.5</td>
@@ -1265,7 +1282,7 @@
 </tr><tr>
   <td>26</td>
   <td>2612</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2612/major-investors/main-trend" target="_blank" rel="noopener">中航</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2612" target="_blank" rel="noopener">中航</a></td>
   <td>63.30</td>
   <td class="positive ">21.5</td>
   <td class="positive ">4.3</td>
@@ -1277,7 +1294,7 @@
 </tr><tr>
   <td>27</td>
   <td>6168</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6168/major-investors/main-trend" target="_blank" rel="noopener">宏齊</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6168" target="_blank" rel="noopener">宏齊</a></td>
   <td>42.70</td>
   <td class="positive ">23.5</td>
   <td class="positive ">17.6</td>
@@ -1289,7 +1306,7 @@
 </tr><tr>
   <td>28</td>
   <td>5521</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/5521/major-investors/main-trend" target="_blank" rel="noopener">工信</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=5521" target="_blank" rel="noopener">工信</a></td>
   <td>10.65</td>
   <td class="negative ">-3.3</td>
   <td class="positive ">12.1</td>
@@ -1301,7 +1318,7 @@
 </tr><tr>
   <td>29</td>
   <td>1569</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1569/major-investors/main-trend" target="_blank" rel="noopener">濱川</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1569" target="_blank" rel="noopener">濱川</a></td>
   <td>61.00</td>
   <td class="positive ">29</td>
   <td class="positive ">20.1</td>
@@ -1313,7 +1330,7 @@
 </tr><tr>
   <td>30</td>
   <td>1314</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1314/major-investors/main-trend" target="_blank" rel="noopener">中石化</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1314" target="_blank" rel="noopener">中石化</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>9.18</td>
   <td class="positive ">15.7</td>
   <td class="positive ">14.1</td>
@@ -1362,7 +1379,7 @@
       <tr>
   <td>1</td>
   <td>2034</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2034/major-investors/main-trend" target="_blank" rel="noopener">允強</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2034" target="_blank" rel="noopener">允強</a></td>
   <td>21.45</td>
   <td class="positive ">15.3</td>
   <td class="positive ">37</td>
@@ -1374,7 +1391,7 @@
 </tr><tr>
   <td>2</td>
   <td>5880</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/5880/major-investors/main-trend" target="_blank" rel="noopener">合庫金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=5880" target="_blank" rel="noopener">合庫金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>27.20</td>
   <td class="positive ">12.2</td>
   <td class="positive ">10.2</td>
@@ -1386,7 +1403,7 @@
 </tr><tr>
   <td>3</td>
   <td>2412</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2412/major-investors/main-trend" target="_blank" rel="noopener">中華電</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2412" target="_blank" rel="noopener">中華電</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>144.50</td>
   <td class="negative ">-1.6</td>
   <td class="positive ">26.1</td>
@@ -1398,7 +1415,7 @@
 </tr><tr>
   <td>4</td>
   <td>6021</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6021/major-investors/main-trend" target="_blank" rel="noopener">美好證</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6021" target="_blank" rel="noopener">美好證</a></td>
   <td>45.40</td>
   <td class="negative ">-3.2</td>
   <td class="positive ">12.5</td>
@@ -1410,7 +1427,7 @@
 </tr><tr>
   <td>5</td>
   <td>2855</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2855/major-investors/main-trend" target="_blank" rel="noopener">統一證</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2855" target="_blank" rel="noopener">統一證</a></td>
   <td>57.30</td>
   <td class="positive ">49.9</td>
   <td class="positive ">24.6</td>
@@ -1422,7 +1439,7 @@
 </tr><tr>
   <td>6</td>
   <td>2474</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2474/major-investors/main-trend" target="_blank" rel="noopener">可成</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2474" target="_blank" rel="noopener">可成</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>211.00</td>
   <td class="positive ">27.2</td>
   <td class="positive ">20.6</td>
@@ -1434,7 +1451,7 @@
 </tr><tr>
   <td>7</td>
   <td>2461</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2461/major-investors/main-trend" target="_blank" rel="noopener">光群雷</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2461" target="_blank" rel="noopener">光群雷</a></td>
   <td>17.70</td>
   <td class="negative ">-4.6</td>
   <td class="positive ">1.5</td>
@@ -1446,7 +1463,7 @@
 </tr><tr>
   <td>8</td>
   <td>2520</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2520/major-investors/main-trend" target="_blank" rel="noopener">冠德</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2520" target="_blank" rel="noopener">冠德</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>38.35</td>
   <td class="positive ">35.2</td>
   <td class="positive ">17.5</td>
@@ -1458,7 +1475,7 @@
 </tr><tr>
   <td>9</td>
   <td>6026</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6026/major-investors/main-trend" target="_blank" rel="noopener">福邦證</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6026" target="_blank" rel="noopener">福邦證</a></td>
   <td>15.80</td>
   <td class="positive ">25.8</td>
   <td class="positive ">17.5</td>
@@ -1470,7 +1487,7 @@
 </tr><tr>
   <td>10</td>
   <td>2328</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2328/major-investors/main-trend" target="_blank" rel="noopener">廣宇</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2328" target="_blank" rel="noopener">廣宇</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>47.75</td>
   <td class="positive ">34.2</td>
   <td class="positive ">22.2</td>
@@ -1482,7 +1499,7 @@
 </tr><tr>
   <td>11</td>
   <td>6214</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6214/major-investors/main-trend" target="_blank" rel="noopener">精誠</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6214" target="_blank" rel="noopener">精誠</a></td>
   <td>191.50</td>
   <td class="negative ">-3.7</td>
   <td class="positive ">1.5</td>
@@ -1494,7 +1511,7 @@
 </tr><tr>
   <td>12</td>
   <td>2617</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2617/major-investors/main-trend" target="_blank" rel="noopener">台航</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2617" target="_blank" rel="noopener">台航</a></td>
   <td>33.30</td>
   <td class="positive ">25.7</td>
   <td class="positive ">11.7</td>
@@ -1506,7 +1523,7 @@
 </tr><tr>
   <td>13</td>
   <td>3056</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3056/major-investors/main-trend" target="_blank" rel="noopener">富華新</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3056" target="_blank" rel="noopener">富華新</a></td>
   <td>14.35</td>
   <td class="negative ">-14.8</td>
   <td class="positive ">22.1</td>
@@ -1518,7 +1535,7 @@
 </tr><tr>
   <td>14</td>
   <td>3045</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3045/major-investors/main-trend" target="_blank" rel="noopener">台灣大</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3045" target="_blank" rel="noopener">台灣大</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>124.50</td>
   <td class="positive ">6.1</td>
   <td class="positive ">9</td>
@@ -1530,7 +1547,7 @@
 </tr><tr>
   <td>15</td>
   <td>2880</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2880/major-investors/main-trend" target="_blank" rel="noopener">華南金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2880" target="_blank" rel="noopener">華南金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>46.65</td>
   <td class="negative ">-17.8</td>
   <td class="positive ">7.3</td>
@@ -1542,7 +1559,7 @@
 </tr><tr>
   <td>16</td>
   <td>2883</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2883/major-investors/main-trend" target="_blank" rel="noopener">凱基金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2883" target="_blank" rel="noopener">凱基金</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>40.45</td>
   <td class="positive ">44</td>
   <td class="positive ">9.4</td>
@@ -1554,7 +1571,7 @@
 </tr><tr>
   <td>17</td>
   <td>6023</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/6023/major-investors/main-trend" target="_blank" rel="noopener">元大期</a></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=6023" target="_blank" rel="noopener">元大期</a></td>
   <td>87.90</td>
   <td class="positive ">12.7</td>
   <td class="positive ">18.3</td>
@@ -1566,7 +1583,7 @@
 </tr><tr>
   <td>18</td>
   <td>1301</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1301/major-investors/main-trend" target="_blank" rel="noopener">台塑</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1301" target="_blank" rel="noopener">台塑</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>65.20</td>
   <td class="positive ">15.3</td>
   <td class="positive ">10.3</td>
@@ -1578,7 +1595,7 @@
 </tr><tr>
   <td>19</td>
   <td>2540</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2540/major-investors/main-trend" target="_blank" rel="noopener">愛山林</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2540" target="_blank" rel="noopener">愛山林</a></td>
   <td>49.10</td>
   <td class="negative ">-17.4</td>
   <td class="positive ">10.1</td>
@@ -1590,7 +1607,7 @@
 </tr><tr>
   <td>20</td>
   <td>1313</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1313/major-investors/main-trend" target="_blank" rel="noopener">聯成</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1313" target="_blank" rel="noopener">聯成</a></td>
   <td>12.30</td>
   <td class="positive ">27.4</td>
   <td class="positive ">19.3</td>
@@ -1602,7 +1619,7 @@
 </tr><tr>
   <td>21</td>
   <td>3324</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3324/major-investors/main-trend" target="_blank" rel="noopener">雙鴻</a><span class="badge badge-futures" title="有股票期貨">期</span><span class="badge badge-mini" title="有小型股票期貨">小</span></td>
+  <td><span class="market-badge market-tpex" title="上櫃">櫃</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3324" target="_blank" rel="noopener">雙鴻</a><span class="badge badge-futures" title="有股票期貨">期</span><span class="badge badge-mini" title="有小型股票期貨">小</span></td>
   <td>1520.00</td>
   <td class="positive ">8.3</td>
   <td class="positive ">1.3</td>
@@ -1614,7 +1631,7 @@
 </tr><tr>
   <td>22</td>
   <td>1314</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1314/major-investors/main-trend" target="_blank" rel="noopener">中石化</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1314" target="_blank" rel="noopener">中石化</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>9.18</td>
   <td class="positive ">15.7</td>
   <td class="positive ">14.1</td>
@@ -1626,7 +1643,7 @@
 </tr><tr>
   <td>23</td>
   <td>1102</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1102/major-investors/main-trend" target="_blank" rel="noopener">亞泥</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1102" target="_blank" rel="noopener">亞泥</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>35.25</td>
   <td class="positive ">6.2</td>
   <td class="positive ">6.3</td>
@@ -1638,7 +1655,7 @@
 </tr><tr>
   <td>24</td>
   <td>9907</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/9907/major-investors/main-trend" target="_blank" rel="noopener">統一實</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=9907" target="_blank" rel="noopener">統一實</a></td>
   <td>14.95</td>
   <td class="negative ">-11.9</td>
   <td class="negative ">-12</td>
@@ -1650,7 +1667,7 @@
 </tr><tr>
   <td>25</td>
   <td>1326</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1326/major-investors/main-trend" target="_blank" rel="noopener">台化</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1326" target="_blank" rel="noopener">台化</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>67.80</td>
   <td class="negative ">-10.6</td>
   <td class="negative ">-5.1</td>
@@ -1662,7 +1679,7 @@
 </tr><tr>
   <td>26</td>
   <td>1513</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/1513/major-investors/main-trend" target="_blank" rel="noopener">中興電</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=1513" target="_blank" rel="noopener">中興電</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>166.50</td>
   <td class="positive ">19.9</td>
   <td class="positive ">17.7</td>
@@ -1674,7 +1691,7 @@
 </tr><tr>
   <td>27</td>
   <td>2371</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2371/major-investors/main-trend" target="_blank" rel="noopener">大同</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2371" target="_blank" rel="noopener">大同</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>30.00</td>
   <td class="positive ">33.6</td>
   <td class="positive ">19.1</td>
@@ -1686,7 +1703,7 @@
 </tr><tr>
   <td>28</td>
   <td>2421</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2421/major-investors/main-trend" target="_blank" rel="noopener">建準</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2421" target="_blank" rel="noopener">建準</a><span class="badge badge-futures" title="有股票期貨">期</span></td>
   <td>166.50</td>
   <td class="negative ">-3.6</td>
   <td class="positive ">1.5</td>
@@ -1698,7 +1715,7 @@
 </tr><tr>
   <td>29</td>
   <td>3062</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/3062/major-investors/main-trend" target="_blank" rel="noopener">建漢</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=3062" target="_blank" rel="noopener">建漢</a></td>
   <td>23.15</td>
   <td class="positive ">17.1</td>
   <td class="positive ">17</td>
@@ -1710,7 +1727,7 @@
 </tr><tr>
   <td>30</td>
   <td>2511</td>
-  <td><a class="stock-link" href="https://www.wantgoo.com/stock/2511/major-investors/main-trend" target="_blank" rel="noopener">太子</a></td>
+  <td><span class="market-badge market-twse" title="上市">市</span><a class="stock-link" href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=2511" target="_blank" rel="noopener">太子</a></td>
   <td>8.44</td>
   <td class="positive ">3.4</td>
   <td class="positive ">0.4</td>
