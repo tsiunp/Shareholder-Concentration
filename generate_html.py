@@ -156,8 +156,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
 <h1>TWSExTPEX_籌碼集中度排行</h1>
 <div class="meta">
-  資料來源更新時間：{source_updated_at}　|　爬蟲擷取時間：{fetched_at}
-  　|　<a href="heatmap.html" style="color:#2d5be3;">📊 查看即時漲跌熱力圖 →</a>
+  資料來源更新時間：{source_updated_at} | 爬蟲擷取時間：{fetched_at}
+   | <a href="heatmap.html" style="color:#2d5be3;">📊 查看即時漲跌熱力圖 →</a>
 </div>
 
 <div class="tabs">
@@ -202,6 +202,23 @@ def cls(v):
         return ""
 
 
+def format_tw_stock_price(price):
+    """依台股 Tick 檔位規則格式化收盤價顯示位數"""
+    if price is None or price == "-":
+        return "-"
+    try:
+        val = float(price)
+    except (ValueError, TypeError):
+        return str(price)
+
+    if val < 50:
+        return f"{val:.2f}"
+    elif val < 500:
+        return f"{val:.1f}"
+    else:
+        return f"{val:.0f}"
+
+
 def build_badges(futures_info):
     """
     根據該股票有沒有期貨/小型期貨，組成要貼在名稱旁邊的小徽章 HTML。
@@ -226,15 +243,11 @@ def build_market_badge(market):
 
 def build_watchlist_text(rows, market_map):
     """把該分頁的股票代碼組成 TradingView 可匯入的觀察清單格式"""
-    # 優先查對照表判斷是上市(TWSE)還是上櫃(TPEX)；
-    # 如果對照表裡查不到（極少數情況），預設用 TWSE。
     symbols = [f"{market_map.get(r['code'], 'TWSE')}:{r['code']}" for r in rows]
     return ",".join(symbols)
 
 
 def build_panel(period, rows, futures_map, price_map, market_map):
-    # 依照目前分頁是哪個週期，決定要幫「1日/5日/10日/20日」哪一欄加上灰底樣式，
-    # 例如目前是 5日排行，就只有 5日 那欄（含表頭）會有 highlight-col
     hl1 = "highlight-col" if period == "1" else ""
     hl5 = "highlight-col" if period == "5" else ""
     hl10 = "highlight-col" if period == "10" else ""
@@ -243,7 +256,8 @@ def build_panel(period, rows, futures_map, price_map, market_map):
     trs = []
     for r in rows:
         code = r["code"]
-        close_price = price_map.get(code, "-")
+        raw_price = price_map.get(code, "-")
+        close_price = format_tw_stock_price(raw_price)
         futures_info = futures_map.get(code, {"futures": False, "mini_futures": False})
         market = market_map.get(code, "TWSE")
 
@@ -302,7 +316,6 @@ def main():
     with open("data/latest.json", "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    # 讀取上市/上櫃對照表、股票期貨標的清單、收盤價（scraper.py 產生），找不到就當空字典
     try:
         with open("data/market_map.json", "r", encoding="utf-8") as f:
             market_map = json.load(f)
@@ -343,7 +356,6 @@ def main():
     with open("docs/index.html", "w", encoding="utf-8") as f:
         f.write(html)
 
-    # 為每個分頁產生 TradingView 觀察清單 txt 檔
     for p in PERIOD_LABELS:
         watchlist_text = build_watchlist_text(data["data"].get(p, []), market_map)
         with open(f"docs/watchlist_{p}.txt", "w", encoding="utf-8") as f:
