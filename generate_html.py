@@ -203,20 +203,30 @@ def cls(v):
 
 
 def format_tw_stock_price(price):
-    """依台股 Tick 檔位規則格式化收盤價顯示位數"""
-    if price is None or price == "-":
+    """
+    依照台股 Tick 檔位規則格式化價格：
+      - 未滿 50 元 (0.01 / 0.05 檔)：顯示 2 位小數
+      - 50 ~ 未滿 500 元 (0.10 / 0.50 檔)：顯示 1 位小數
+      - 500 元以上 (1.00 / 5.00 檔)：顯示整數（無小數點），千元以上加千分位逗號
+    """
+    if price is None or price == "" or price == "-":
         return "-"
+    
     try:
-        val = float(price)
+        # 先去除千分位逗號與空白，避免 float 轉換失敗
+        clean_price = str(price).replace(",", "").strip()
+        val = float(clean_price)
     except (ValueError, TypeError):
         return str(price)
 
+    # 依照各價格區間的 Tick 規則格式化
     if val < 50:
         return f"{val:.2f}"
     elif val < 500:
         return f"{val:.1f}"
     else:
-        return f"{val:.0f}"
+        # 500元以上無小數，並依圖一習慣加上千分位（例如 1,200）
+        return f"{int(round(val)):,}"
 
 
 def build_badges(futures_info):
