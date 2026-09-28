@@ -122,7 +122,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     vertical-align: middle;
     color: #fff;
   }}
-  .market-twse {{ background: #2d7dd2; }}  /* 上市：藍色 */
+  .market-twse {{ background: #a84747; }}  /* 上市：灰紅色 */
   .market-tpex {{ background: #696969; }}  /* 上櫃：灰黑色 */
 
   .badge {{
