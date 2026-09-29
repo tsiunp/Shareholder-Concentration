@@ -288,8 +288,8 @@ def build_panel(period, rows, futures_map, price_map, market_map):
   <div class="table-scroll">
   <table>
     <colgroup>
-      <col style="width:5%">
-      <col style="width:12%">
+      <col style="width:7%">
+      <col style="width:10%">
       <col style="width:14%">
       <col style="width:8%">
       <col style="width:8%">
