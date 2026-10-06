@@ -7,7 +7,7 @@
 
 ## 完成後你會得到什麼
 
-一個網址（類似 `https://你的帳號.github.io/peicheng-scraper/`），
+一個網址（類似 `https://你的帳號.github.io/Shareholder-Concentration/`），
 打開就能看到 4 個分頁（1日/5日/10日/20日）的前20名排行表，每天自動更新一次。
 
 ---
@@ -19,7 +19,7 @@
 
 ### 步驟 2：建立一個新的 Repository（專案倉庫）
 1. 登入後點右上角 **+** → **New repository**
-2. Repository name 填 `peicheng-scraper`（或你喜歡的名字）
+2. Repository name 填 `Shareholder-Concentration`（或你喜歡的名字）
 3. 選 **Public**（GitHub Pages 免費版需要 Public）
 4. 不用勾選任何初始化選項，直接點 **Create repository**
 
